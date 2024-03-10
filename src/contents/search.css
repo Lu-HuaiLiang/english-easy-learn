@@ -1,0 +1,37 @@
+.lingo-search-wrapper {
+    z-index: 10000;
+    position: fixed;
+    top: 20%;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    width: fit-content;
+}
+
+.lingo-search {
+    box-sizing: border-box;
+    width: 418px;
+    height: 72px;
+    background: #2a2c2f;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.6);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    padding: 21px 20px;
+    position: relative;
+
+   
+}
+
+.lingo-search-input {
+    background: #2a2c2f;
+    outline: none;
+    font-size: 20px;
+    line-height: 24px;
+    width: 330px;
+    height: 30px;
+    padding: 0;
+    color: #ffffff;
+    border: none;
+}
