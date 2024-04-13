@@ -1,0 +1,10 @@
+{
+  "files.autoSave": "afterDelay",
+  "prettier.configPath": "./.prettierrc",
+  "prettier.useTabs": false,
+  "prettier.prettierPath": "./node_modules/prettier",
+  "editor.formatOnSaveMode": "file",
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.enable": true
+}

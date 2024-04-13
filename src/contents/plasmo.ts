@@ -1,7 +1,7 @@
 import type { PlasmoCSConfig } from "plasmo"
 
 export const config: PlasmoCSConfig = {
-  matches: ["https://www.baidu.com/*"]
+  matches: ["https://mp.weixin.qq.com/*"]
 }
 
 // function Content() {
