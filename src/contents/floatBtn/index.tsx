@@ -4,7 +4,8 @@ import { sendToBackground } from '@plasmohq/messaging';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import type { IWordDetail } from './utils/type';
 import { Display } from './components/Display';
-import { getFixedPostion } from './utils/index';
+import { getFixedPostion } from '../shared/utils/index';
+import { useJudgeIsTrigger } from '~contents/shared/hooks/JudgeIsTrigger';
 
 export const config: PlasmoCSConfig = {
   matches: ['https://mp.weixin.qq.com/*'],
@@ -28,26 +29,15 @@ const PlasmoInline = () => {
   const [selectedText, setSelectedText] = useState('');
   const [buttonVisible, setButtonVisible] = useState(false);
   const [displayVisible, setDisplayVisible] = useState(false);
-  const triggerNodeSet = useRef<Set<HTMLElement>>(new Set());
   const [targetRect, setTargetRect] = useState<DOMRect | undefined>();
-
-  const saveTrigger = (node: HTMLElement | null) => {
-    if (node) {
-      triggerNodeSet.current!.add(node);
-    }
-  };
+  const { saveTrigger, isTrigger } = useJudgeIsTrigger();
 
   useEffect(() => {
     const closeDropdown = (event: MouseEvent) => {
-      const isTrigger = Array.from(triggerNodeSet.current).some(
-        (node) =>
-          event.target?.contains(node) ||
-          event.target?.shadowRoot?.contains(node),
-      );
-      if (buttonVisible && !isTrigger) {
+      if (buttonVisible && !isTrigger(event.target)) {
         setButtonVisible(false);
       }
-      if (displayVisible && !isTrigger) {
+      if (displayVisible && !isTrigger(event.target)) {
         setDisplayVisible(false);
       }
     };
@@ -59,7 +49,10 @@ const PlasmoInline = () => {
 
   useEffect(() => {
     document.body.style.position = 'relative';
-    const handleSelection = () => {
+    const handleSelection = (event) => {
+      if (isTrigger(event.target)) {
+        return;
+      }
       const selection = window.getSelection();
       const selectedString = selection.toString().trim();
       if (selectedString !== '') {

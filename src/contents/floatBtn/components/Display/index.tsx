@@ -1,6 +1,7 @@
 import type { IWordDetail } from '~contents/floatBtn/utils/type';
-import { useState, type ReactNode, useEffect } from 'react';
+import { useState, type ReactNode, useEffect, useRef } from 'react';
 import { sendToBackground } from '@plasmohq/messaging';
+import { AddWordBookButton } from '../AddWordBookButton';
 
 const pronounces = (d: IWordDetail) => {
   return (
@@ -95,12 +96,14 @@ const forms = (d: IWordDetail) => {
   );
 };
 
-function useGetDetail(selectedText: string): IWordDetail[] {
+function useGetDetail(selectedText: string, containerRef: any): IWordDetail[] {
   const [detail, setDetail] = useState([]);
+
   useEffect(() => {
     if (!selectedText) {
       return;
     }
+    containerRef?.current.scrollTo(0, 0);
     (async () => {
       const resp = await sendToBackground({
         name: 'searchWord',
@@ -117,14 +120,18 @@ function useGetDetail(selectedText: string): IWordDetail[] {
 
 export function Display(props: { selectedText: string }): ReactNode {
   const { selectedText } = props;
-  const detail = useGetDetail(selectedText);
+  const containerRef = useRef<any>();
+  const detail = useGetDetail(selectedText, containerRef);
 
   if (!selectedText) {
     return <></>;
   }
 
   return (
-    <div className="display-container">
+    <div className="display-container" ref={containerRef}>
+      <div className='display-container-tool'>
+        <AddWordBookButton selectedText={selectedText} />
+      </div>
       <div className="selection-display">{selectedText}</div>
       <div className="detail_content">
         {detail.map((d) => {

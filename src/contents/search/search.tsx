@@ -27,7 +27,8 @@ export const getInlineAnchor: PlasmoGetInlineAnchor = () => document.body;
 export const getShadowHostId = () => 'plasmo-inline-example-unique-id';
 
 const PlasmoInline = () => {
-  // return <></>
+  return <></>;
+
   const [exist, setExist] = useState(false);
   const [entries, setEntries] = useState<{ explain: string; entry: string }[]>(
     [],

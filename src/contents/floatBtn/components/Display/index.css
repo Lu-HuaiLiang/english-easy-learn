@@ -7,6 +7,15 @@
   overflow-y: scroll;
   max-height: 500px;
   /* height: 400px; */
+  position: relative;
+}
+
+.display-container-tool {
+  position: absolute;
+  top: 22px;
+  right: 27px;
+  font-size: 12px;
+  cursor: pointer;
 }
 
 .selection-display {
