@@ -129,8 +129,8 @@ export function Display(props: { selectedText: string }): ReactNode {
 
   return (
     <div className="display-container" ref={containerRef}>
-      <div className='display-container-tool'>
-        <AddWordBookButton selectedText={selectedText} />
+      <div className="display-container-tool">
+        {/* <AddWordBookButton selectedText={selectedText} /> */}
       </div>
       <div className="selection-display">{selectedText}</div>
       <div className="detail_content">
