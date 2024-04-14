@@ -29,22 +29,27 @@ const PlasmoInline = () => {
   const [displayVisible, setDisplayVisible] = useState(false);
   const [targetRect, setTargetRect] = useState<DOMRect | undefined>();
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
-  // const [UnKnowWordList, setUnknowWordList] = useState(wordbook);
+  const [UnKnowWordList, setUnknowWordList] = useState(wordbook);
 
-  // useEffect(() => {
-  //   event.on('update', () => {});
-  // }, []);
+  useEffect(() => {
+    event.on('update_unknowlist', (words) => {
+      console.log(words);
+      setUnknowWordList(words);
+    });
+  }, []);
 
   useEffect(() => {
     (async () => {
       const nodes = await findTargetTextNode(
-        wordbook.map((item) => ({ text: item })),
+        UnKnowWordList.map((item) => ({ text: item })),
       );
       handleHighlighter(nodes);
     })();
-  }, [wordbook]);
+  }, [UnKnowWordList]);
 
   const handleHighlighter = (nodes) => {
+    // 新增取消的高亮的逻辑
+
     nodes.forEach((it) => {
       const markWrap = document.createElement('xmark');
       const t = document.createElement('xmark');
