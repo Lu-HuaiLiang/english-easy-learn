@@ -11,6 +11,7 @@ specifiers:
   classnames: ^2.5.1
   configstore: ^2.0.0
   got: ^6.3.0
+  idb-keyval: ^6.2.1
   plasmo: 0.85.0
   prettier: 3.2.4
   react: 18.2.0
@@ -24,6 +25,7 @@ dependencies:
   classnames: 2.5.1
   configstore: 2.1.0
   got: 6.7.1
+  idb-keyval: 6.2.1
   plasmo: 0.85.0_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -3965,6 +3967,10 @@ packages:
       safer-buffer: 2.1.2
     dev: false
     optional: true
+
+  /idb-keyval/6.2.1:
+    resolution: {integrity: sha512-8Sb3veuYCyrZL+VBt9LJfZjLUPWVvqn8tG28VqYNFCo43KHcKuq+b4EiXGeuaLAQWL2YmyDgMp2aSpH9JHsEQg==}
+    dev: false
 
   /ieee754/1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
