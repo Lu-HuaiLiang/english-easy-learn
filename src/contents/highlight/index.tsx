@@ -1,9 +1,11 @@
 import type { PlasmoCSConfig, PlasmoGetInlineAnchor } from 'plasmo';
 import cssText from 'data-text:./index.css';
 import { useEffect, useRef, useState, type MutableRefObject } from 'react';
-import { wordbook } from './store';
 import { Display } from '~contents/highlight/components/Display';
-import { getFixedPostion } from '../shared/utils/index';
+import {
+  getFixedPostionByRightBottomPoint,
+  getFixedPostionByLeftBottomPoint,
+} from '../shared/utils/index';
 import { useHighlight } from './hook/useHighlight';
 import { useFloatButtonState } from './hook/useFloatButtonState';
 import { useJudgeIsTrigger } from '~contents/shared/hooks/JudgeIsTrigger';
@@ -80,7 +82,7 @@ const PlasmoInline = () => {
           style={{
             position: 'fixed',
             zIndex: '9999',
-            ...getFixedPostion(56, 25, targetRect),
+            ...getFixedPostionByRightBottomPoint(56, 25, targetRect),
           }}
           onClick={() => {
             setFloatButtonVisible(false);
@@ -95,7 +97,7 @@ const PlasmoInline = () => {
         style={{
           position: 'fixed',
           zIndex: '9999',
-          ...getFixedPostion(400, 500, targetRect),
+          ...getFixedPostionByLeftBottomPoint(400, 500, targetRect),
           visibility:
             openDisplayFrom !== OpenDisplayFrom.Close ? 'visible' : 'hidden',
         }}

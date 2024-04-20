@@ -1,7 +1,4 @@
 import { sendToBackground } from '@plasmohq/messaging';
-import { useStorage } from '@plasmohq/storage/hook';
-import { useState } from 'react';
-import { wordbook } from '~contents/highlight/store';
 import { event } from '~contents/shared/utils/event';
 
 const updateUnknownWordByEmail = (words: string[]) =>
