@@ -49,7 +49,7 @@ const PlasmoInline = () => {
     const handleKeyDown = (event) => {
       // console.log('⌥+F 组合键被按下', event.altKey, event.key);
       if (event.altKey && event.key === 'ƒ') {
-        console.log('⌥+F 组合键被按下');
+        // console.log('⌥+F 组合键被按下');
         setExist(true);
       }
     };

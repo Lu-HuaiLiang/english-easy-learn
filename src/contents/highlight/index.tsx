@@ -38,7 +38,6 @@ function useGetUnKnownWordList(): any {
           email: '815220870@qq.com',
         },
       });
-      console.log(resp.message);
       resp.message && setUnknownWordList(resp.message);
     })();
   }, []);
