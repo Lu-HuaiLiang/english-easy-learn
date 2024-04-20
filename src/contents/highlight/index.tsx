@@ -49,16 +49,22 @@ const PlasmoInline = () => {
   const [targetRect, setTargetRect] = useState<DOMRect | undefined>();
   const [UnKnownWordList, setUnknownWordList] = useGetUnKnownWordList();
   const { saveTrigger, isTrigger } = useJudgeIsTrigger();
+  const [floatButtonVisible, setFloatButtonVisible] = useState(false);
+  const leaveHighlightTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
-  const { leaveHighlightTimerRef } = useHighlight({
+  useHighlight({
+    leaveHighlightTimerRef,
     UnKnownWordList,
     setUnknownWordList,
     setTargetRect,
     setOpenDisplayFrom,
     setSelectedText,
+    setFloatButtonVisible,
   });
 
-  const { floatButtonVisible, setFloatButtonVisible } = useFloatButtonState({
+  useFloatButtonState({
+    floatButtonVisible,
+    setFloatButtonVisible,
     isTrigger,
     openDisplayFrom,
     setOpenDisplayFrom,
@@ -102,7 +108,10 @@ const PlasmoInline = () => {
             setOpenDisplayFrom(OpenDisplayFrom.Close);
         }}
       >
-        <Display UnKnownWordList={UnKnownWordList} selectedText={selectedText} />
+        <Display
+          UnKnownWordList={UnKnownWordList}
+          selectedText={selectedText}
+        />
       </div>
     </div>
   );

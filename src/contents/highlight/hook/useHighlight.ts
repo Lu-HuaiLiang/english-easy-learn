@@ -10,8 +10,10 @@ export function useHighlight(props: any) {
     setTargetRect,
     setSelectedText,
     setOpenDisplayFrom,
+    leaveHighlightTimerRef,
+    setFloatButtonVisible,
   } = props;
-  const leaveHighlightTimerRef = useRef<ReturnType<typeof setTimeout>>();
+
   const deleteWordRef = useRef<string>('');
   const XmarkNodeMapRef = useRef(new Map());
 
@@ -79,6 +81,7 @@ export function useHighlight(props: any) {
           : [t],
       );
       t.addEventListener('mouseenter', () => {
+        setFloatButtonVisible(false);
         const selection = window.getSelection();
         selection.removeAllRanges();
         clearTimeout(leaveHighlightTimerRef.current);

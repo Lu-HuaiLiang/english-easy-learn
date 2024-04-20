@@ -3,14 +3,14 @@ import { OpenDisplayFrom } from '../utils/type';
 
 export function useFloatButtonState(props: any) {
   const {
+    floatButtonVisible,
+    setFloatButtonVisible,
     isTrigger,
     openDisplayFrom,
     setOpenDisplayFrom,
     setSelectedText,
     setTargetRect,
   } = props;
-
-  const [floatButtonVisible, setFloatButtonVisible] = useState(false);
 
   useEffect(() => {
     const closeDropdown = (event: MouseEvent) => {
