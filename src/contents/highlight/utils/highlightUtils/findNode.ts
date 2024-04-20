@@ -20,34 +20,80 @@ const dFSTraverse = (rootNodes, result = [] as any[]) => {
   return result;
 };
 
-// findTargetTextNode[dFSTraverse]
-const findTargetTextNode = async (materialList) => {
+export const findDeleteXMARNode = (materialList) => {
   if (materialList.length === 0) {
     return [];
   }
-  const els = dFSTraverse([document])
+  const Textels = dFSTraverse([document])
     .filter((el) => el.nodeType === 3) // 文本节点
     .filter((el) => el.nodeValue.trim())
     .filter((it) => !!it)
     .filter((it) => it.length > 3);
 
   // 找到包含特点文本的Node节点index
-  const elIndexs = els
-    .map((it) => it.nodeValue)
-    .reduce((pre, cur, index) => {
+  const elIndexs = Textels.map((it) => it.nodeValue).reduce(
+    (pre, cur, index) => {
       const hasExist = materialList.some((it) => {
         return forLowerCase(cur).includes(forLowerCase(it.text));
       });
       return hasExist ? [...pre, index] : pre;
-    }, []);
+    },
+    [],
+  );
 
+  const els = elIndexs
+    .map((i) => Textels[i])
+    .map((e) => e.parentNode.parentNode);
+
+  return els;
+};
+
+// findTargetTextNode[dFSTraverse]
+const findTargetTextNode = async (materialList) => {
+  if (materialList.length === 0) {
+    return [];
+  }
+  const Textels = dFSTraverse([document])
+    .filter((el) => el.nodeType === 3) // 文本节点
+    .filter((el) => el.nodeValue.trim())
+    .filter((it) => !!it)
+    .filter((it) => it.length > 3);
+
+  // 找到包含特点文本的Node节点index
+  const elIndexs = Textels.map((it) => it.nodeValue).reduce(
+    (pre, cur, index) => {
+      const hasExist = materialList.some((it) => {
+        return forLowerCase(cur).includes(forLowerCase(it.text));
+      });
+      return hasExist ? [...pre, index] : pre;
+    },
+    [],
+  );
+
+  // const els = elIndexs.map((i) => Textels[i]);
+
+  // console.log(
+  //   'XMAR',
+  //   els.map((e) => ({
+  //     parent_nodename: e.parentNode.nodeName,
+  //     parent_dataset: e.parentNode.dataset,
+  //     e: e,
+  //     target: materialList.find((it) =>
+  //       forLowerCase(e.nodeValue).includes(forLowerCase(it.text)),
+  //     ),
+  //   })),
+  //   // els.map((e) => {}),
+  //   // elIndexs
+  //   //   .map((i) => Textels[i])
+  //   //   .filter((el) => {
+  //   //     return !(el.parentNode.nodeName === 'XMARK');
+  //   //   }),
+  // );
   // 最终返回的时候，包含特定文本的分割后的TextNode节点
   return elIndexs
-    .map((i) => els[i])
+    .map((i) => Textels[i])
     .filter((el) => {
-      return !(
-        el.parentNode.nodeName === 'XMARK' && el.parentNode.dataset.marked
-      );
+      return !(el.parentNode.nodeName === 'XMARK');
     })
     .reduce((pre, curEl) => {
       // 一个元素内可能存在多个单词

@@ -1,4 +1,4 @@
-import type { IWordDetail } from '~contents/floatBtn/utils/type';
+import type { IWordDetail } from '~contents/highlight/utils/type';
 import { useState, type ReactNode, useEffect, useRef } from 'react';
 import { sendToBackground } from '@plasmohq/messaging';
 import { AddWordBookButton } from '../AddWordBookButton';
@@ -106,7 +106,7 @@ function useGetDetail(selectedText: string, containerRef: any): IWordDetail[] {
     containerRef?.current.scrollTo(0, 0);
     (async () => {
       const resp = await sendToBackground({
-        name: 'searchWord',
+        name: 'searchWordDetailInfo',
         body: {
           input: selectedText,
         },
@@ -118,8 +118,11 @@ function useGetDetail(selectedText: string, containerRef: any): IWordDetail[] {
   return detail;
 }
 
-export function Display(props: { selectedText: string }): ReactNode {
-  const { selectedText } = props;
+export function Display(props: {
+  selectedText: string;
+  UnKnownWordList: string[];
+}): ReactNode {
+  const { selectedText, UnKnownWordList } = props;
   const containerRef = useRef<any>();
   const detail = useGetDetail(selectedText, containerRef);
 
@@ -129,10 +132,15 @@ export function Display(props: { selectedText: string }): ReactNode {
 
   return (
     <div className="display-container" ref={containerRef}>
-      <div className="display-container-tool">
-        {/* <AddWordBookButton selectedText={selectedText} /> */}
+      <div className="selection-display">
+        {selectedText}
+        <div className="display-container-tool">
+          <AddWordBookButton
+            UnKnownWordList={UnKnownWordList}
+            selectedText={selectedText}
+          />
+        </div>
       </div>
-      <div className="selection-display">{selectedText}</div>
       <div className="detail_content">
         {detail.map((d) => {
           return (

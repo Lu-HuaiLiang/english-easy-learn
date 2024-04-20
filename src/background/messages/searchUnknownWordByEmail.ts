@@ -1,7 +1,10 @@
 import type { PlasmoMessaging } from '@plasmohq/messaging';
+import { host } from '~contents/shared/const';
 
-const SearchWord = async (inputValue) =>
-  fetch(`http://112.74.40.32:3000/search?word=${inputValue}`)
+
+
+const searchUnknownWordByEmail = async (email) =>
+  fetch(`http://${host}:3000/searchUnknownWordByEmail?email=${email}`)
     .then((res) => {
       return res.json();
     })
@@ -10,7 +13,7 @@ const SearchWord = async (inputValue) =>
     });
 
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
-  const message = await SearchWord(req.body.input);
+  const message = await searchUnknownWordByEmail(req.body.email);
   res.send({
     message,
   });

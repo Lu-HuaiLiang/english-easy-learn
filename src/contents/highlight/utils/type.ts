@@ -32,3 +32,9 @@ export interface IWordDetail {
     }[];
   }[];
 }
+
+export enum OpenDisplayFrom {
+  FloatBtn,
+  Highlight,
+  Close,
+}

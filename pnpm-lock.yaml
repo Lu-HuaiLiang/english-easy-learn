@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@ianvs/prettier-plugin-sort-imports': 4.1.1
   '@plasmohq/messaging': ^0.6.2
+  '@plasmohq/storage': ^1.10.0
   '@types/chrome': 0.0.258
   '@types/node': 20.11.5
   '@types/react': 18.2.48
@@ -16,6 +17,7 @@ specifiers:
 
 dependencies:
   '@plasmohq/messaging': 0.6.2_react@18.2.0
+  '@plasmohq/storage': 1.10.0_react@18.2.0
   classnames: 2.5.1
   plasmo: 0.85.0_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
@@ -2220,6 +2222,18 @@ packages:
       - velocityjs
       - walrus
       - whiskers
+    dev: false
+
+  /@plasmohq/storage/1.10.0_react@18.2.0:
+    resolution: {integrity: sha512-qvxD7M/k5BNcluyFHyabm21500tRJs1itUkO4bFad0SeaSFtSmAFtNzYCpQ9ormqJAk2j9xkd5DfWHcuCSQmog==}
+    peerDependencies:
+      react: ^16.8.6 || ^17 || ^18
+    peerDependenciesMeta:
+      react:
+        optional: true
+    dependencies:
+      pify: 6.1.0
+      react: 18.2.0
     dev: false
 
   /@pnpm/config.env-replace/1.1.0:
@@ -4762,6 +4776,11 @@ packages:
     engines: {node: '>=6'}
     dev: false
     optional: true
+
+  /pify/6.1.0:
+    resolution: {integrity: sha512-KocF8ve28eFjjuBKKGvzOBGzG8ew2OqOOSxTTZhirkzH7h3BI1vyzqlR0qbfcDBve1Yzo3FVlWUAtCRrbVN8Fw==}
+    engines: {node: '>=14.16'}
+    dev: false
 
   /pirates/4.0.6:
     resolution: {integrity: sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==}
