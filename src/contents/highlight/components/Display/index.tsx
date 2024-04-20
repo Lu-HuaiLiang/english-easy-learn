@@ -118,6 +118,28 @@ function useGetDetail(selectedText: string, containerRef: any): IWordDetail[] {
   return detail;
 }
 
+function useGetGoogleTranslation(selectedText: string): IWordDetail[] {
+  const [detail, setDetail] = useState([]);
+
+  useEffect(() => {
+    if (!selectedText) {
+      return;
+    }
+    (async () => {
+      const resp = await sendToBackground({
+        name: 'googleTranslate',
+        body: {
+          selectedText,
+          option: { to: 'zh-cn' },
+        },
+      });
+      console.log('useGetGoogleTranslation', resp.message);
+      resp.message && setDetail(resp.message);
+    })();
+  }, [selectedText]);
+  return detail;
+}
+
 export function Display(props: {
   selectedText: string;
   UnKnownWordList: string[];
@@ -125,6 +147,7 @@ export function Display(props: {
   const { selectedText, UnKnownWordList } = props;
   const containerRef = useRef<any>();
   const detail = useGetDetail(selectedText, containerRef);
+  useGetGoogleTranslation(selectedText);
 
   if (!selectedText) {
     return <></>;

@@ -3,9 +3,9 @@ import cssText from 'data-text:./index.css';
 import { useEffect, useRef, useState, type MutableRefObject } from 'react';
 import { Display } from '~contents/highlight/components/Display';
 import {
-  getFixedPostionByRightBottomPoint,
-  getFixedPostionByLeftBottomPoint,
-} from '../shared/utils/index';
+  getFixedPositionByRightBottomPoint,
+  getFixedPositionByLeftBottomPoint,
+} from '../shared/utils/getFixedPositionByWindow/index';
 import { useHighlight } from './hook/useHighlight';
 import { useFloatButtonState } from './hook/useFloatButtonState';
 import { useJudgeIsTrigger } from '~contents/shared/hooks/JudgeIsTrigger';
@@ -82,7 +82,7 @@ const PlasmoInline = () => {
           style={{
             position: 'fixed',
             zIndex: '9999',
-            ...getFixedPostionByRightBottomPoint(56, 25, targetRect),
+            ...getFixedPositionByRightBottomPoint(56, 25, targetRect),
           }}
           onClick={() => {
             setFloatButtonVisible(false);
@@ -97,7 +97,7 @@ const PlasmoInline = () => {
         style={{
           position: 'fixed',
           zIndex: '9999',
-          ...getFixedPostionByLeftBottomPoint(400, 500, targetRect),
+          ...getFixedPositionByLeftBottomPoint(400, 500, targetRect),
           visibility:
             openDisplayFrom !== OpenDisplayFrom.Close ? 'visible' : 'hidden',
         }}

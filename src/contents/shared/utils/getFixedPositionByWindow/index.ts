@@ -1,4 +1,4 @@
-export function getFixedPostionByRightBottomPoint(
+export function getFixedPositionByRightBottomPoint(
   floatWidth: number,
   floatHeight: number,
   rect?: DOMRect,
@@ -50,7 +50,7 @@ export function getFixedPostionByRightBottomPoint(
   }
 }
 
-export function getFixedPostionByLeftBottomPoint(
+export function getFixedPositionByLeftBottomPoint(
   floatWidth: number,
   floatHeight: number,
   rect?: DOMRect,

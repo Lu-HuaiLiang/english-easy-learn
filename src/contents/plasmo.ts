@@ -1,8 +1,8 @@
-import type { PlasmoCSConfig } from 'plasmo';
+// import type { PlasmoCSConfig } from 'plasmo';
 
-export const config: PlasmoCSConfig = {
-  matches: ['https://mp.weixin.qq.com/*'],
-};
+// export const config: PlasmoCSConfig = {
+//   matches: ['https://mp.weixin.qq.com/*'],
+// };
 
 // function Content() {
 //   const [mainModalVisiable, setMainModalVisiable] = useState(false)
