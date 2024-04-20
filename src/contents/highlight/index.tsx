@@ -83,6 +83,7 @@ const PlasmoInline = () => {
             ...getFixedPostion(56, 25, targetRect),
           }}
           onClick={() => {
+            setFloatButtonVisible(false);
             setOpenDisplayFrom(OpenDisplayFrom.FloatBtn);
           }}
         >

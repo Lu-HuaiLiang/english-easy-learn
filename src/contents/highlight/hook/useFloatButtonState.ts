@@ -14,9 +14,6 @@ export function useFloatButtonState(props: any) {
 
   useEffect(() => {
     const closeDropdown = (event: MouseEvent) => {
-      if (floatButtonVisible && !isTrigger(event.target)) {
-        setFloatButtonVisible(false);
-      }
       if (
         openDisplayFrom === OpenDisplayFrom.FloatBtn &&
         !isTrigger(event.target)
@@ -28,7 +25,7 @@ export function useFloatButtonState(props: any) {
     return function cleanup() {
       window.removeEventListener('click', closeDropdown);
     };
-  }, [floatButtonVisible, openDisplayFrom]);
+  }, [openDisplayFrom]);
 
   useEffect(() => {
     document.body.style.position = 'relative';
@@ -38,16 +35,18 @@ export function useFloatButtonState(props: any) {
       }
       const selection = window.getSelection();
       const selectedString = selection.toString().trim();
-      if (selectedString !== '') {
+      if (selection && selection.toString().length > 0) {
         const range = selection.getRangeAt(0);
         const rect = range.getBoundingClientRect();
         setSelectedText(selectedString);
         setTargetRect(rect);
         setFloatButtonVisible(true);
+      } else {
+        setFloatButtonVisible(false);
       }
     };
-    document.addEventListener('dblclick', handleSelection);
-    return () => document.removeEventListener('dblclick', handleSelection);
+    document.addEventListener('mouseup', handleSelection);
+    return () => document.removeEventListener('mouseup', handleSelection);
   }, []);
 
   return {
