@@ -2,8 +2,6 @@ import token from './google-translate-token.js';
 import languages from './languages.js';
 
 async function translate(text, opts = {}) {
-  console.log(text, opts);
-
   for (const lang of [opts.from, opts.to]) {
     if (lang && !languages.isSupported(lang)) {
       const e = new Error();
@@ -21,33 +19,27 @@ async function translate(text, opts = {}) {
 
   const { name, value } = await token.get(text);
   const url = 'https://translate.google.com/translate_a/single';
-  const params = new URLSearchParams();
-  params.append('client', 'gtx');
-  params.append('sl', opts.from);
-  params.append('tl', opts.to);
-  params.append('hl', opts.to);
-  params.append(
-    'dt',
-    ['at', 'bd', 'ex', 'ld', 'md', 'qca', 'rw', 'rm', 'ss', 't'].join(','),
-  );
-  params.append('ie', 'UTF-8');
-  params.append('oe', 'UTF-8');
-  params.append('otf', '1');
-  params.append('ssel', '0');
-  params.append('tsel', '0');
-  params.append('kc', '7');
-  params.append('q', text);
+  const params = new URLSearchParams({
+    client: 'gtx',
+    sl: opts.from,
+    tl: opts.to,
+    hl: opts.to,
+    ie: 'UTF-8',
+    oe: 'UTF-8',
+    otf: 1,
+    ssel: 0,
+    tsel: 0,
+    kc: 7,
+    q: text,
+  });
   params.append(name, value);
 
-  const urlWithQuery = `${url}?${params.toString()}`;
+  const urlWithQuery = `${url}?${params.toString()}&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t`;
+
+  console.log('urlWithQuery', urlWithQuery);
 
   try {
     const res = await fetch(urlWithQuery);
-
-    if (!res.ok) {
-      throw new Error('Network response was not ok');
-    }
-
     const body = await res.json();
 
     const result = {
@@ -63,9 +55,14 @@ async function translate(text, opts = {}) {
           didYouMean: false,
         },
       },
-      raw: opts.raw ? JSON.stringify(body) : '',
+      raw: '',
     };
 
+    // if (opts.raw) {
+    //     result.raw = res.body;
+    // }
+
+    console.log('body', body);
     body[0].forEach((obj) => {
       if (obj[0]) {
         result.text += obj[0];
@@ -97,10 +94,14 @@ async function translate(text, opts = {}) {
     return result;
   } catch (err) {
     const e = new Error();
-    e.code = err.status ? 'BAD_REQUEST' : 'BAD_NETWORK';
-    e.message = err.message;
+    if (err.statusCode !== undefined && err.statusCode !== 200) {
+      e.code = 'BAD_REQUEST';
+    } else {
+      e.code = 'BAD_NETWORK';
+    }
     throw e;
   }
 }
 
 export default translate;
+export { languages };

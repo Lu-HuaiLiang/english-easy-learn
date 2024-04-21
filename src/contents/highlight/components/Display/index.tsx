@@ -1,7 +1,16 @@
-import type { IWordDetail } from '~contents/highlight/utils/type';
+import {
+  OpenDisplayFrom,
+  type IWordDetail,
+} from '~contents/highlight/utils/type';
 import { useState, type ReactNode, useEffect, useRef } from 'react';
 import { sendToBackground } from '@plasmohq/messaging';
 import { AddWordBookButton } from '../AddWordBookButton';
+
+enum UseWhichDisplay {
+  WordDetail,
+  Translation,
+  Unknow,
+}
 
 const pronounces = (d: IWordDetail) => {
   return (
@@ -96,14 +105,18 @@ const forms = (d: IWordDetail) => {
   );
 };
 
-function useGetDetail(selectedText: string, containerRef: any): IWordDetail[] {
-  const [detail, setDetail] = useState([]);
-
+function useGetDetail(props: {
+  selectedText: string;
+  openDisplayFrom: OpenDisplayFrom;
+}): IWordDetail[] | undefined {
+  const { selectedText, openDisplayFrom } = props;
+  const [detail, setDetail] = useState(undefined);
   useEffect(() => {
-    if (!selectedText) {
+    if (!selectedText || openDisplayFrom === OpenDisplayFrom.Close) {
       return;
     }
-    containerRef?.current.scrollTo(0, 0);
+    const containerRef = document.getElementById('word-display-container');
+    containerRef?.scrollTo(0, 0);
     (async () => {
       const resp = await sendToBackground({
         name: 'searchWordDetailInfo',
@@ -111,17 +124,21 @@ function useGetDetail(selectedText: string, containerRef: any): IWordDetail[] {
           input: selectedText,
         },
       });
-      // console.log(resp.message);
-      resp.message && setDetail(resp.message);
+      setDetail(resp.message || []);
     })();
-  }, [selectedText]);
+  }, [selectedText, openDisplayFrom]);
+
   return detail;
 }
 
-function useGetGoogleTranslation(selectedText: string): IWordDetail[] {
-  const [detail, setDetail] = useState([]);
+function useGetGoogleTranslation(
+  selectedText: string,
+  openDisplayFrom: OpenDisplayFrom,
+): string {
+  const [trainslation, setTrainslation] = useState('');
   useEffect(() => {
-    if (!selectedText) {
+    if (!selectedText || openDisplayFrom === OpenDisplayFrom.Close) {
+      setTrainslation('');
       return;
     }
     (async () => {
@@ -133,27 +150,20 @@ function useGetGoogleTranslation(selectedText: string): IWordDetail[] {
         },
       });
       console.log('useGetGoogleTranslation', resp.message);
-      resp.message && setDetail(resp.message);
+      resp.message && setTrainslation(resp.message.text);
     })();
-  }, [selectedText]);
-  return detail;
+  }, [selectedText, openDisplayFrom]);
+  return trainslation;
 }
 
-export function Display(props: {
+function WordDisplay(props: {
   selectedText: string;
   UnKnownWordList: string[];
+  detail: IWordDetail[] | undefined;
 }): ReactNode {
-  const { selectedText, UnKnownWordList } = props;
-  const containerRef = useRef<any>();
-  const detail = useGetDetail(selectedText, containerRef);
-  useGetGoogleTranslation(selectedText);
-
-  if (!selectedText) {
-    return <></>;
-  }
-
+  const { selectedText, UnKnownWordList, detail = [] } = props;
   return (
-    <div className="display-container" ref={containerRef}>
+    <div className="display-container" id="word-display-container">
       <div className="selection-display">
         {selectedText}
         <div className="display-container-tool">
@@ -177,4 +187,98 @@ export function Display(props: {
       </div>
     </div>
   );
+}
+
+function TranslationDisplay(props: { trainslation: string }): ReactNode {
+  const { trainslation } = props;
+  return (
+    <div className="display-container">
+      <div className="detail_content">
+        {/* <div className="translation-before-text">{selectedText}</div>
+        <div className="translation-line"></div> */}
+        <div className="translation-after-text">
+          {/* <div className="translation-after-text-loading"></div> */}
+          {trainslation ? (
+            trainslation
+          ) : (
+            <div className="translation-after-text-loading"></div>
+          )}
+        </div>
+      </div>
+      <div className="translation-reference">
+        Powered By <span style={{ color: '#4286F3' }}>G</span>
+        <span style={{ color: '#EB4537' }}>o</span>
+        <span style={{ color: '#FAC230' }}>o</span>
+        <span style={{ color: '#4286F3' }}>g</span>
+        <span style={{ color: '#55AF7B' }}>l</span>
+        <span style={{ color: '#EB4537' }}>e</span> Translation ⚡️
+      </div>
+    </div>
+  );
+}
+
+function useDisplayData(props: {
+  selectedText: string;
+  openDisplayFrom: OpenDisplayFrom;
+}): {
+  detail: IWordDetail[] | undefined;
+  trainslation: string;
+  useWhichDisplay: UseWhichDisplay;
+} {
+  const { selectedText, openDisplayFrom } = props;
+  const trainslation = useGetGoogleTranslation(selectedText, openDisplayFrom);
+  const detail = useGetDetail({
+    selectedText,
+    openDisplayFrom,
+  });
+  const [useWhichDisplay, setUseWhichDisplay] = useState(
+    UseWhichDisplay.Unknow,
+  );
+
+  useEffect(() => {
+    if (!selectedText) {
+      setUseWhichDisplay(UseWhichDisplay.Unknow);
+    }
+  }, [selectedText]);
+
+  useEffect(() => {
+    if (Array.isArray(detail)) {
+      if (detail.length) {
+        setUseWhichDisplay(UseWhichDisplay.WordDetail);
+      } else {
+        setUseWhichDisplay(UseWhichDisplay.Translation);
+      }
+    }
+  }, [detail]);
+
+  return {
+    trainslation,
+    detail,
+    useWhichDisplay,
+  };
+}
+
+export function Display(props: {
+  selectedText: string;
+  UnKnownWordList: string[];
+  openDisplayFrom: OpenDisplayFrom;
+}): ReactNode {
+  const { selectedText, UnKnownWordList, openDisplayFrom } = props;
+  const { trainslation, detail, useWhichDisplay } = useDisplayData({
+    selectedText,
+    openDisplayFrom,
+  });
+  if (useWhichDisplay === UseWhichDisplay.Unknow) {
+    return <></>;
+  } else if (useWhichDisplay === UseWhichDisplay.Translation) {
+    return <TranslationDisplay trainslation={trainslation} />;
+  } else {
+    return (
+      <WordDisplay
+        detail={detail}
+        UnKnownWordList={UnKnownWordList}
+        selectedText={selectedText}
+      />
+    );
+  }
 }

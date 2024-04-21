@@ -16,6 +16,7 @@ export function useHighlight(props: any) {
 
   const deleteWordRef = useRef<string>('');
   const XmarkNodeMapRef = useRef(new Map());
+  const enterHighlightTimeRef = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
     event.on('delete_unknown', (word) => {
@@ -81,15 +82,18 @@ export function useHighlight(props: any) {
           : [t],
       );
       t.addEventListener('mouseenter', () => {
-        setFloatButtonVisible(false);
-        const selection = window.getSelection();
-        selection.removeAllRanges();
-        clearTimeout(leaveHighlightTimerRef.current);
-        setTargetRect(t.getBoundingClientRect());
-        setSelectedText(it.material.text);
-        setOpenDisplayFrom(OpenDisplayFrom.Highlight);
+        enterHighlightTimeRef.current = setTimeout(() => {
+          setFloatButtonVisible(false);
+          const selection = window.getSelection();
+          selection.removeAllRanges();
+          clearTimeout(leaveHighlightTimerRef.current);
+          setTargetRect(t.getBoundingClientRect());
+          setSelectedText(it.material.text);
+          setOpenDisplayFrom(OpenDisplayFrom.Highlight);
+        }, 300);
       });
       t.addEventListener('mouseleave', (e) => {
+        clearTimeout(enterHighlightTimeRef.current);
         leaveHighlightTimerRef.current = setTimeout(() => {
           setOpenDisplayFrom(OpenDisplayFrom.Close);
         }, 200);

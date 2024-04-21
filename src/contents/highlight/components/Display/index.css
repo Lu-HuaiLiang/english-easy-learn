@@ -131,4 +131,56 @@
   left: -20px;
 }
 
-/** Display */
+.translation-before-text {
+  font-size: 14px;
+}
+
+.translation-after-text {
+  font-size: 14px;
+}
+
+.translation-line {
+  height: 1px;
+  width: 360px;
+  background-color: rgb(95 95 95);
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+/* .translation-after-text-loading {
+  height: 30px;
+  width: 360px;
+  background-color: rgb(95 95 95);
+} */
+
+.translation-after-text-loading {
+  width: 360px;
+  height: 50px;
+  background: linear-gradient(90deg, #3e3e3e 25%, #374277 37%, #3e3e3e 63%) 0 0 /
+    400% 100%;
+  background-size: 400% 100%;
+  border-radius: 5px;
+  animation: arco-skeleton-circle 1.5s linear infinite;
+}
+
+@keyframes arco-skeleton-circle {
+  0% {
+    background-position: 100% 50%;
+  }
+  to {
+    background-position: 0 50%;
+  }
+}
+
+.translation-reference {
+  word-break: break-word;
+  font-family: 'Avenir Next';
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 28px;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0px 20px 10px 20px;
+}

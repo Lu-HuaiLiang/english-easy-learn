@@ -88,7 +88,7 @@ const PlasmoInline = () => {
             setOpenDisplayFrom(OpenDisplayFrom.FloatBtn);
           }}
         >
-          查单词
+          翻译
         </button>
       )}
       <div
@@ -111,6 +111,7 @@ const PlasmoInline = () => {
         }}
       >
         <Display
+          openDisplayFrom={openDisplayFrom}
           UnKnownWordList={UnKnownWordList}
           selectedText={selectedText}
         />
