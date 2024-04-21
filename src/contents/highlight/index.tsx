@@ -13,7 +13,7 @@ import { OpenDisplayFrom } from './utils/type';
 import { sendToBackground } from '@plasmohq/messaging';
 
 export const config: PlasmoCSConfig = {
-  matches: ['https://mp.weixin.qq.com/*'],
+  matches: ['<all_urls>'],
 };
 
 // Inject into the ShadowDOM
@@ -88,7 +88,7 @@ const PlasmoInline = () => {
             setOpenDisplayFrom(OpenDisplayFrom.FloatBtn);
           }}
         >
-          翻译
+          📝 翻译
         </button>
       )}
       <div
