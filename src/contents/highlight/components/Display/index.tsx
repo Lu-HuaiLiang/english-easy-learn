@@ -193,7 +193,7 @@ function TranslationDisplay(props: { trainslation: string }): ReactNode {
   const { trainslation } = props;
   return (
     <div className="display-container">
-      <div className="detail_content">
+      <div className="translation-detail-content">
         {/* <div className="translation-before-text">{selectedText}</div>
         <div className="translation-line"></div> */}
         <div className="translation-after-text">
@@ -236,10 +236,10 @@ function useDisplayData(props: {
   );
 
   useEffect(() => {
-    if (!selectedText) {
+    if (openDisplayFrom === OpenDisplayFrom.Close) {
       setUseWhichDisplay(UseWhichDisplay.Unknow);
     }
-  }, [selectedText]);
+  }, [openDisplayFrom]);
 
   useEffect(() => {
     if (Array.isArray(detail)) {

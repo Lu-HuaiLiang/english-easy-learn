@@ -131,6 +131,10 @@
   left: -20px;
 }
 
+.translation-detail-content {
+  padding: 16px 20px 5px;
+}
+
 .translation-before-text {
   font-size: 14px;
 }
