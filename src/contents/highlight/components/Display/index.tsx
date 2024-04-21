@@ -137,7 +137,7 @@ function useGetGoogleTranslation(
 ): string {
   const [trainslation, setTrainslation] = useState('');
   useEffect(() => {
-    if (!selectedText || openDisplayFrom === OpenDisplayFrom.Close) {
+    if (!selectedText || openDisplayFrom !== OpenDisplayFrom.FloatBtn) {
       setTrainslation('');
       return;
     }
