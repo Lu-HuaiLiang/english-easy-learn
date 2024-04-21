@@ -164,7 +164,7 @@
     400% 100%;
   background-size: 400% 100%;
   border-radius: 5px;
-  animation: arco-skeleton-circle 1.5s linear infinite;
+  animation: arco-skeleton-circle 1s linear infinite;
 }
 
 @keyframes arco-skeleton-circle {
