@@ -59,15 +59,15 @@
 }
 
 .pronounces_audio_status_loading {
-  background-color: #f47a00;
+  background-color: #f47a00 !important;
 }
 
 .pronounces_audio_status_play {
-  background-color: #00bb2f;
+  background-color: #00bb2f !important;
 }
 
 .pronounces_audio_status_error {
-  background-color: #bb0000;
+  background-color: #bb0000 !important;
 }
 
 .forms_list {
@@ -118,6 +118,19 @@
   padding: 10px 20px;
 }
 
+.sentence_audio_status {
+  width: 22px;
+  height: 22px;
+  border-radius: 100%;
+  background-color: #afafaf;
+  cursor: pointer;
+
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .sentences_title {
   margin-top: 9px;
   font-weight: 700;
@@ -126,11 +139,17 @@
   margin-bottom: 4px;
 }
 
+.sentences_list_container {
+  display: flex;
+  justify-content: space-between;
+}
+
 .sentences_list_item {
   font-weight: 700;
   margin-bottom: 10px;
   display: flex;
   flex-direction: column;
+  max-width: 330px;
 }
 
 .sentences_list_item_text {
@@ -143,10 +162,11 @@
 }
 
 .sentences_list_item_tran {
-  font-size: 11px;
+  font-size: 12px;
   /* margin-left: 12px; */
   color: #a7a7a7;
   margin-left: 20px;
+  margin-top: 4px;
 }
 
 .sentences_list_item_dottt {

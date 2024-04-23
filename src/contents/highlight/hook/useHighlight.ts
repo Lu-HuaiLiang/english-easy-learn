@@ -18,19 +18,19 @@ export function useHighlight(props: any) {
   const XmarkNodeMapRef = useRef(new Map());
   const enterHighlightTimeRef = useRef<ReturnType<typeof setTimeout>>();
 
-  useEffect(() => {
-    event.on('delete_unknown', (word) => {
-      deleteWordRef.current = word;
-      setUnknownWordList((words: string[]) => words.filter((w) => w !== word));
-    });
-    event.on('add_unknown', (word) => {
-      setUnknownWordList((words: string[]) => words.concat(word));
-    });
-    return () => {
-      event.off('delete_unknown');
-      event.off('add_unknown');
-    };
-  }, []);
+  // useEffect(() => {
+  //   event.on('delete_unknown', (word) => {
+  //     deleteWordRef.current = word;
+  //     setUnknownWordList((words: string[]) => words.filter((w) => w !== word));
+  //   });
+  //   event.on('add_unknown', (word) => {
+  //     setUnknownWordList((words: string[]) => words.concat(word));
+  //   });
+  //   return () => {
+  //     event.off('delete_unknown');
+  //     event.off('add_unknown');
+  //   };
+  // }, []);
 
   const deleteHighlight = () => {
     if (!deleteWordRef.current) {
@@ -66,7 +66,7 @@ export function useHighlight(props: any) {
       markWrap.appendChild(it.node.cloneNode(false));
       markWrap.setAttribute(
         'style',
-        'color: blue; cursor: pointer; white-space: nowrap;',
+        'color: #de008e; cursor: pointer; white-space: nowrap;',
         // 'border-bottom: 1px dashed #3BC168; cursor: pointer; white-space: nowrap;',
       );
       t.setAttribute(`data-text`, it.material.text);

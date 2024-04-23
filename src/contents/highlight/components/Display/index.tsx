@@ -5,6 +5,10 @@ import {
 import { useState, type ReactNode, useEffect, useRef } from 'react';
 import { sendToBackground } from '@plasmohq/messaging';
 import { AddWordBookButton } from '../AddWordBookButton';
+import {
+  AudioPlayStatus,
+  useAudioState,
+} from '~contents/shared/hooks/useAudioState';
 
 enum UseWhichDisplay {
   WordDetail,
@@ -12,37 +16,12 @@ enum UseWhichDisplay {
   Unknow,
 }
 
-enum AudioPlayStatus {
-  NotYet,
-  Loading,
-  Play,
-  Error,
-}
-
 const pronouncesItem = (w, i) => {
-  const audioRef = useRef(new Audio());
-  const [playStatus, setPlayStatus] = useState(AudioPlayStatus.NotYet);
-
-  useEffect(() => {
-    audioRef.current.onloadstart = function () {
-      setPlayStatus(AudioPlayStatus.Loading);
-    };
-    audioRef.current.onloadeddata = function () {
-      setPlayStatus(AudioPlayStatus.Play);
-    };
-    audioRef.current.addEventListener('ended', () => {
-      setPlayStatus(AudioPlayStatus.NotYet);
-    });
-    audioRef.current.addEventListener('error', () => {
-      setPlayStatus(AudioPlayStatus.Error);
-    });
-  }, []);
-
+  const { audioRef, playStatus } = useAudioState();
   const onClick = (word, type) => {
     audioRef.current.src = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(word)}&type=${type === 'UK' ? 1 : 2}`;
     audioRef.current.play();
   };
-
   const AudioStatusClassName =
     'pronounces_audio_status' +
     (playStatus === AudioPlayStatus.Loading
@@ -54,7 +33,6 @@ const pronouncesItem = (w, i) => {
     (playStatus === AudioPlayStatus.Error
       ? ' pronounces_audio_status_error'
       : '');
-
   return (
     <div
       className="pronounces_item"
@@ -102,6 +80,7 @@ const sentences = (d: IWordDetail) => {
       <div className="sentences_list">
         {d.sentences &&
           d.sentences?.map((i) => {
+            const { audioRef, playStatus } = useAudioState();
             let currentIndex = 0;
             const highlightedText = i.text_indexes.map(
               ({ start, end }, index) => {
@@ -118,6 +97,23 @@ const sentences = (d: IWordDetail) => {
               },
             );
 
+            const onClick = (word, type) => {
+              audioRef.current.src = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(word)}&type=${type === 'UK' ? 1 : 2}`;
+              audioRef.current.play();
+            };
+
+            const AudioStatusClassName =
+              'sentence_audio_status' +
+              (playStatus === AudioPlayStatus.Loading
+                ? ' pronounces_audio_status_loading'
+                : '') +
+              (playStatus === AudioPlayStatus.Play
+                ? ' pronounces_audio_status_play'
+                : '') +
+              (playStatus === AudioPlayStatus.Error
+                ? ' pronounces_audio_status_error'
+                : '');
+
             // 添加剩余文本
             highlightedText.push(
               <span key={i.text_indexes.length}>
@@ -126,12 +122,20 @@ const sentences = (d: IWordDetail) => {
             );
 
             return (
-              <div className="sentences_list_item">
-                <div className="sentences_list_item_text">
-                  <div className="sentences_list_item_dottt">▫️</div>
-                  {highlightedText}
+              <div className="sentences_list_container">
+                <div className="sentences_list_item">
+                  <div className="sentences_list_item_text">
+                    <div className="sentences_list_item_dottt">▫️</div>
+                    {highlightedText}
+                  </div>
+                  <div className="sentences_list_item_tran">{i.tran}</div>
                 </div>
-                <div className="sentences_list_item_tran">{i.tran}</div>
+                <div
+                  onClick={() => onClick(i.text, 'UK')}
+                  className={AudioStatusClassName}
+                >
+                  👂
+                </div>
               </div>
             );
           })}
@@ -263,7 +267,7 @@ function TranslationDisplay(props: { trainslation: string }): ReactNode {
         <span style={{ color: '#4286F3' }}>g</span>
         <span style={{ color: '#55AF7B' }}>l</span>
         <span style={{ color: '#EB4537' }}>e</span> Translation ⚡️
-      </div>
+      </div> 
     </div>
   );
 }
