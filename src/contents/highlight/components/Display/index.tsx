@@ -12,16 +12,67 @@ enum UseWhichDisplay {
   Unknow,
 }
 
+enum AudioPlayStatus {
+  NotYet,
+  Loading,
+  Play,
+  Error,
+}
+
+const pronouncesItem = (w, i) => {
+  const audioRef = useRef(new Audio());
+  const [playStatus, setPlayStatus] = useState(AudioPlayStatus.NotYet);
+
+  useEffect(() => {
+    audioRef.current.onloadstart = function () {
+      setPlayStatus(AudioPlayStatus.Loading);
+    };
+    audioRef.current.onloadeddata = function () {
+      setPlayStatus(AudioPlayStatus.Play);
+    };
+    audioRef.current.addEventListener('ended', () => {
+      setPlayStatus(AudioPlayStatus.NotYet);
+    });
+    audioRef.current.addEventListener('error', () => {
+      setPlayStatus(AudioPlayStatus.Error);
+    });
+  }, []);
+
+  const onClick = (word, type) => {
+    audioRef.current.src = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(word)}&type=${type === 'UK' ? 1 : 2}`;
+    audioRef.current.play();
+  };
+
+  const AudioStatusClassName =
+    'pronounces_audio_status' +
+    (playStatus === AudioPlayStatus.Loading
+      ? ' pronounces_audio_status_loading'
+      : '') +
+    (playStatus === AudioPlayStatus.Play
+      ? ' pronounces_audio_status_play'
+      : '') +
+    (playStatus === AudioPlayStatus.Error
+      ? ' pronounces_audio_status_error'
+      : '');
+
+  return (
+    <div
+      className="pronounces_item"
+      onClick={() => {
+        onClick(w, i.type);
+      }}
+    >
+      {i.type === 'US' ? '美' : '英'} {i.phonetic ? `/${i.phonetic}/` : ''}
+      <div className={AudioStatusClassName}></div>
+    </div>
+  );
+};
+
 const pronounces = (d: IWordDetail) => {
   return (
     <div className="pronounces_list">
-      {d.pronounces.map((i) => {
-        return (
-          <span className="pronounces_item">
-            {i.type === 'US' ? '美' : '英'}{' '}
-            {i.phonetic ? `/${i.phonetic}/` : ''}
-          </span>
-        );
+      {d.pronounces?.map((i) => {
+        return pronouncesItem(d.word, i);
       })}
     </div>
   );
@@ -30,7 +81,7 @@ const pronounces = (d: IWordDetail) => {
 const explain_list = (d: IWordDetail) => {
   return (
     <div className="explain_list">
-      {d.explain_list.map((i) => {
+      {d.explain_list?.map((i) => {
         return (
           <div className="explain_list_item">
             {i.pos && <div className="explain_list_pos">{i.pos}</div>}
@@ -92,7 +143,7 @@ const sentences = (d: IWordDetail) => {
 const forms = (d: IWordDetail) => {
   return (
     <div className="forms_list">
-      {d.forms.map((i) => {
+      {d.forms?.map((i) => {
         const p = i.split(' ');
         return (
           <div className="forms_list_item">

@@ -37,6 +37,37 @@
   font-weight: 700;
   margin-bottom: 15px;
   color: #a7a7a7;
+  display: flex;
+}
+
+.pronounces_item {
+  margin-right: 5px;
+  background-color: #313336;
+  padding: 4px 8px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.pronounces_audio_status {
+  width: 6px;
+  height: 6px;
+  border-radius: 100%;
+  background-color: #afafaf;
+  margin-left: 4px;
+}
+
+.pronounces_audio_status_loading {
+  background-color: #f47a00;
+}
+
+.pronounces_audio_status_play {
+  background-color: #00bb2f;
+}
+
+.pronounces_audio_status_error {
+  background-color: #bb0000;
 }
 
 .forms_list {
@@ -81,13 +112,6 @@
   font-family: Avenir Next;
   color: #868788;
   min-width: 39px;
-}
-
-.pronounces_item {
-  margin-right: 5px;
-  background-color: #313336;
-  padding: 4px 8px;
-  border-radius: 5px;
 }
 
 .detail_content {
@@ -187,4 +211,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0px 20px 10px 20px;
+}
+
+.pronounces_audio_status {
+  width: 10px;
+  height: 10px;
 }
