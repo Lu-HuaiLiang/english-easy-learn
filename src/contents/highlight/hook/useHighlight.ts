@@ -18,19 +18,19 @@ export function useHighlight(props: any) {
   const XmarkNodeMapRef = useRef(new Map());
   const enterHighlightTimeRef = useRef<ReturnType<typeof setTimeout>>();
 
-  // useEffect(() => {
-  //   event.on('delete_unknown', (word) => {
-  //     deleteWordRef.current = word;
-  //     setUnknownWordList((words: string[]) => words.filter((w) => w !== word));
-  //   });
-  //   event.on('add_unknown', (word) => {
-  //     setUnknownWordList((words: string[]) => words.concat(word));
-  //   });
-  //   return () => {
-  //     event.off('delete_unknown');
-  //     event.off('add_unknown');
-  //   };
-  // }, []);
+  useEffect(() => {
+    event.on('delete_unknown', (word) => {
+      deleteWordRef.current = word;
+      setUnknownWordList((words: string[]) => words.filter((w) => w !== word));
+    });
+    event.on('add_unknown', (word) => {
+      setUnknownWordList((words: string[]) => words.concat(word));
+    });
+    return () => {
+      event.off('delete_unknown');
+      event.off('add_unknown');
+    };
+  }, []);
 
   const deleteHighlight = () => {
     if (!deleteWordRef.current) {
