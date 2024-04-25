@@ -27,7 +27,6 @@ export const getStyle = () => {
 
 export const getInlineAnchor: PlasmoGetInlineAnchor = () => document.body;
 
-// Use this to optimize unmount lookups
 export const getShadowHostId = () => 'plasmo-inline-example-unique-id';
 
 function useGetUnKnownWordList(): any {

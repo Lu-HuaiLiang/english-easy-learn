@@ -125,7 +125,7 @@ const sentences = (d: IWordDetail) => {
               <div className="sentences_list_container">
                 <div className="sentences_list_item">
                   <div className="sentences_list_item_text">
-                    <div className="sentences_list_item_dottt">▫️</div>
+                    <div className="sentences_list_item_dottt">💬</div>
                     {highlightedText}
                   </div>
                   <div className="sentences_list_item_tran">{i.tran}</div>
@@ -134,7 +134,7 @@ const sentences = (d: IWordDetail) => {
                   onClick={() => onClick(i.text, 'UK')}
                   className={AudioStatusClassName}
                 >
-                  👂
+                  📢
                 </div>
               </div>
             );
@@ -267,7 +267,7 @@ function TranslationDisplay(props: { trainslation: string }): ReactNode {
         <span style={{ color: '#4286F3' }}>g</span>
         <span style={{ color: '#55AF7B' }}>l</span>
         <span style={{ color: '#EB4537' }}>e</span> Translation ⚡️
-      </div> 
+      </div>
     </div>
   );
 }
