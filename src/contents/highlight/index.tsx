@@ -11,9 +11,17 @@ import { useFloatButtonState } from './hook/useFloatButtonState';
 import { useJudgeIsTrigger } from '~contents/shared/hooks/JudgeIsTrigger';
 import { OpenDisplayFrom } from './utils/type';
 import { sendToBackground } from '@plasmohq/messaging';
+import { storage } from '~contents/shared/utils/storageUtils';
+import { useStorage } from '@plasmohq/storage/hook';
+
+// const blacklistWeb = () => (await storage.get('blacklistWeb')) as string[];
 
 export const config: PlasmoCSConfig = {
   matches: ['<all_urls>'],
+  // @ts-ignore
+  exclude_globs: JSON.parse(localStorage.getItem('blacklistWeb'))
+    ? JSON.parse(localStorage.getItem('blacklistWeb'))
+    : [],
 };
 
 // Inject into the ShadowDOM

@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { storage } from '~contents/shared/utils/storageUtils';
+import { useStorage } from '@plasmohq/storage/hook';
 
 function extractWebsite(url) {
   var parser = new URL(url);
@@ -6,8 +8,11 @@ function extractWebsite(url) {
 }
 
 function IndexPopup() {
-  const [data, setData] = useState('');
   const [currentWebsite, setCurrentWebsite] = useState<string>('');
+  const [get, set] = useStorage({
+    key: 'blacklistWeb',
+    instance: storage,
+  });
 
   useEffect(() => {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -20,8 +25,13 @@ function IndexPopup() {
 
   const extractWebsite = (url: string): string => {
     const parser = new URL(url);
-    return parser.hostname;
+    return parser.origin;
   };
+
+  // useEffect(() => {
+  //   localStorage.setItem('blacklistWeb', JSON.stringify(get));
+  // }, [get]);
+
   return (
     <div
       style={{
@@ -33,7 +43,7 @@ function IndexPopup() {
       }}
     >
       <h1 style={{ fontFamily: 'Avenir Next', fontSize: '16px' }}>
-        📇 English Assistant
+        📇 English Assistant {JSON.stringify(get)}
       </h1>
       <div
         style={{
@@ -46,10 +56,29 @@ function IndexPopup() {
       >
         📍允许在此网站运行？
         <input
-          disabled={true}
+          // disabled={true}
+          onChange={(e) => {
+            if (e.target.checked) {
+              set((get) => {
+                if (Array.isArray(get)) {
+                  return Array.from(new Set(get.concat(currentWebsite)));
+                } else {
+                  return [currentWebsite];
+                }
+              });
+            } else {
+              set((get) => {
+                return get.filter((a) => a !== currentWebsite);
+              });
+            }
+          }}
           style={{ cursor: 'pointer' }}
           type="checkbox"
-          defaultChecked={true}
+          defaultChecked={
+            get && Array.isArray(get)
+              ? !get.some((l) => currentWebsite === l)
+              : true
+          }
         />
       </div>
       <div style={{ marginLeft: '12px', marginTop: '4px', color: '' }}>
