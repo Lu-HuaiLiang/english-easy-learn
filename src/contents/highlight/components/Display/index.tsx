@@ -134,7 +134,7 @@ const sentences = (d: IWordDetail) => {
                   onClick={() => onClick(i.text, 'UK')}
                   className={AudioStatusClassName}
                 >
-                  📢
+                  🦻🏻
                 </div>
               </div>
             );
