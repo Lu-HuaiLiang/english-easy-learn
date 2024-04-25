@@ -14,14 +14,8 @@ import { sendToBackground } from '@plasmohq/messaging';
 import { storage } from '~contents/shared/utils/storageUtils';
 import { useStorage } from '@plasmohq/storage/hook';
 
-// const blacklistWeb = () => (await storage.get('blacklistWeb')) as string[];
-
 export const config: PlasmoCSConfig = {
   matches: ['<all_urls>'],
-  // @ts-ignore
-  exclude_globs: JSON.parse(localStorage.getItem('blacklistWeb'))
-    ? JSON.parse(localStorage.getItem('blacklistWeb'))
-    : [],
 };
 
 // Inject into the ShadowDOM
@@ -52,7 +46,7 @@ function useGetUnKnownWordList(): any {
   return [UnKnownWordList, setUnknownWordList];
 }
 
-const PlasmoInline = () => {
+const Comp = () => {
   const [selectedText, setSelectedText] = useState('');
   const [openDisplayFrom, setOpenDisplayFrom] = useState(OpenDisplayFrom.Close);
   const [targetRect, setTargetRect] = useState<DOMRect | undefined>();
@@ -128,4 +122,15 @@ const PlasmoInline = () => {
   );
 };
 
+const PlasmoInline = () => {
+  const [blacklistWeb, setBlacklistWeb] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const blacklist = (await storage.get('blacklistWeb')) as string[];
+      setBlacklistWeb(blacklist);
+    })();
+  }, []);
+  const isBan = blacklistWeb.some((l) => l === window.origin);
+  return isBan ? <></> : <Comp />;
+};
 export default PlasmoInline;

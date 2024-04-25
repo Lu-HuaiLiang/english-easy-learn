@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { storage } from '~contents/shared/utils/storageUtils';
 import { useStorage } from '@plasmohq/storage/hook';
 
-function extractWebsite(url) {
-  var parser = new URL(url);
-  return parser.hostname;
-}
+const extractWebsite = (url: string): string => {
+  const parser = new URL(url);
+  return parser.origin;
+};
 
 function IndexPopup() {
   const [currentWebsite, setCurrentWebsite] = useState<string>('');
@@ -13,6 +13,7 @@ function IndexPopup() {
     key: 'blacklistWeb',
     instance: storage,
   });
+  const [checked, setChecked] = useState(true);
 
   useEffect(() => {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -20,17 +21,11 @@ function IndexPopup() {
       const url = activeTab.url;
       const website = extractWebsite(url);
       setCurrentWebsite(website);
+      setChecked(
+        get && Array.isArray(get) ? !get.some((l) => website === l) : true,
+      );
     });
-  }, []);
-
-  const extractWebsite = (url: string): string => {
-    const parser = new URL(url);
-    return parser.origin;
-  };
-
-  // useEffect(() => {
-  //   localStorage.setItem('blacklistWeb', JSON.stringify(get));
-  // }, [get]);
+  }, [get]);
 
   return (
     <div
@@ -43,7 +38,7 @@ function IndexPopup() {
       }}
     >
       <h1 style={{ fontFamily: 'Avenir Next', fontSize: '16px' }}>
-        📇 English Assistant {JSON.stringify(get)}
+        📇 English Assistant
       </h1>
       <div
         style={{
@@ -58,7 +53,12 @@ function IndexPopup() {
         <input
           // disabled={true}
           onChange={(e) => {
+            setChecked(e.target.checked);
             if (e.target.checked) {
+              set((get) => {
+                return get.filter((a) => a !== currentWebsite);
+              });
+            } else {
               set((get) => {
                 if (Array.isArray(get)) {
                   return Array.from(new Set(get.concat(currentWebsite)));
@@ -66,25 +66,16 @@ function IndexPopup() {
                   return [currentWebsite];
                 }
               });
-            } else {
-              set((get) => {
-                return get.filter((a) => a !== currentWebsite);
-              });
             }
           }}
           style={{ cursor: 'pointer' }}
           type="checkbox"
-          defaultChecked={
-            get && Array.isArray(get)
-              ? !get.some((l) => currentWebsite === l)
-              : true
-          }
+          checked={checked}
         />
       </div>
       <div style={{ marginLeft: '12px', marginTop: '4px', color: '' }}>
         {currentWebsite}
       </div>
-      {/* <footer>Crafted by LuHuailiang</footer> */}
     </div>
   );
 }
