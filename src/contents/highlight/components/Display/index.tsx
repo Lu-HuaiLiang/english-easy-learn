@@ -75,7 +75,7 @@ const sentences = (d: IWordDetail) => {
   return (
     <>
       {d.sentences && d.sentences.length && (
-        <div className="sentences_title">🍊 Sentences</div>
+        <div className="sentences_title">Sentences</div>
       )}
       <div className="sentences_list">
         {d.sentences &&
@@ -134,7 +134,7 @@ const sentences = (d: IWordDetail) => {
                   onClick={() => onClick(i.text, 'UK')}
                   className={AudioStatusClassName}
                 >
-                  🦻🏻
+                  👂🏻
                 </div>
               </div>
             );
