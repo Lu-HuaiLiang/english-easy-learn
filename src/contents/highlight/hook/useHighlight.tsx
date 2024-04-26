@@ -36,7 +36,7 @@ export function Highlight(props: any) {
 
   const deleteHighlight = () => {
     const del_nodes = XmarkNodeMapRef.current.get(deleteWordRef.current);
-    del_nodes.forEach((n) => {
+    del_nodes?.forEach((n) => {
       const node = document.createTextNode(n.dataset.originText);
       n.replaceWith(node);
     });
