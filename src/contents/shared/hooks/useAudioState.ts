@@ -17,17 +17,25 @@ export function useAudioState() {
     const stop = (self) => {
       if (self !== audioRef.current) {
         audioRef.current.pause();
-        setPlayStatus(AudioPlayStatus.NotYet);
       }
     };
     event.on('audio:stop', stop);
     audioRef.current.onloadstart = function () {
-      event.emit('audio:stop', audioRef.current);
       setPlayStatus(AudioPlayStatus.Loading);
+      event.emit('audio:stop', audioRef.current);
     };
-    audioRef.current.onloadeddata = function () {
-      setPlayStatus(AudioPlayStatus.Play);
-    };
+    audioRef.current.addEventListener('timeupdate', () => {
+      const currentTime = audioRef.current.currentTime; // 获取当前播放时间（以秒为单位）
+      if (currentTime) {
+        setPlayStatus(AudioPlayStatus.Play);
+      }
+    });
+    audioRef.current.addEventListener('pause', () => {
+      setPlayStatus(AudioPlayStatus.NotYet);
+    });
+    audioRef.current.addEventListener('abort', function () {
+      setPlayStatus(AudioPlayStatus.NotYet);
+    });
     audioRef.current.addEventListener('ended', () => {
       setPlayStatus(AudioPlayStatus.NotYet);
     });
