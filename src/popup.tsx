@@ -32,7 +32,8 @@ function IndexPopup() {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        padding: '5px 10px',
+        padding: '0px 10px',
+        paddingBottom: '5px',
         width: '200px',
         borderRadius: '5px',
       }}
@@ -40,6 +41,21 @@ function IndexPopup() {
       <h1 style={{ fontFamily: 'Avenir Next', fontSize: '16px' }}>
         📇 English Assistant
       </h1>
+      <div
+        style={{
+          cursor: 'pointer',
+          marginBottom: '10px',
+          textDecorationLine: 'underline',
+          color: 'rgb(0 123 198)',
+        }}
+        onClick={() =>
+          chrome.tabs.create({
+            url: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA5MjM3NDk5Ng==&action=getalbum&album_id=2973735650787115013&scene=173&subscene=&sessionid=svr_044cd68460d&enterid=1712978938&from_msgid=2650773861&from_itemidx=2&count=3&nolastread=1#wechat_redirect',
+          })
+        }
+      >
+        🔗 吃瓜英语阅读网站
+      </div>
       <div
         style={{
           fontFamily: 'Avenir Next',
