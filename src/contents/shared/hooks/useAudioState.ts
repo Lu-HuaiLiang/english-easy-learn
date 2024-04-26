@@ -35,6 +35,7 @@ export function useAudioState() {
       setPlayStatus(AudioPlayStatus.Error);
     });
     return () => {
+      event.emit('audio:stop');
       event.off('audio:stop', stop);
     };
   }, []);
