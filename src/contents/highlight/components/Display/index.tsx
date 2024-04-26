@@ -191,6 +191,14 @@ function useGetGoogleTranslation(
   openDisplayFrom: OpenDisplayFrom,
 ): string {
   const [trainslation, setTrainslation] = useState('');
+  function useEnglish() {
+    const extractChineseCharacters =
+      selectedText.match(/[\u4e00-\u9fa5]/g) || [];
+    return (
+      extractChineseCharacters.length >
+      selectedText.length - extractChineseCharacters.join('').length
+    );
+  }
   useEffect(() => {
     if (!selectedText || openDisplayFrom !== OpenDisplayFrom.FloatBtn) {
       setTrainslation('');
@@ -201,7 +209,7 @@ function useGetGoogleTranslation(
         name: 'googleTranslate',
         body: {
           selectedText,
-          option: { to: 'zh-cn' },
+          option: useEnglish() ? { to: 'en' } : { to: 'zh-cn' },
         },
       });
       console.log('useGetGoogleTranslation', resp.message);

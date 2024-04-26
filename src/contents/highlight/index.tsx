@@ -11,8 +11,11 @@ import { useFloatButtonState } from './hook/useFloatButtonState';
 import { useJudgeIsTrigger } from '~contents/shared/hooks/JudgeIsTrigger';
 import { OpenDisplayFrom } from './utils/type';
 import { sendToBackground } from '@plasmohq/messaging';
-import { storage } from '~contents/shared/utils/storageUtils';
-import { useStorage } from '@plasmohq/storage/hook';
+import { useBan } from '~contents/shared/hooks/useBan';
+import {
+  AudioPlayStatus,
+  useAudioState,
+} from '~contents/shared/hooks/useAudioState';
 
 export const config: PlasmoCSConfig = {
   matches: ['<all_urls>'],
@@ -43,6 +46,39 @@ function useGetUnKnownWordList(): any {
     })();
   }, []);
   return [UnKnownWordList, setUnknownWordList];
+}
+
+function AudioButton(props: any) {
+  const { selectedText, type } = props;
+  const { audioRef, playStatus } = useAudioState();
+  const AudioStatusClassName =
+    'pronounces_audio_status' +
+    (playStatus === AudioPlayStatus.Loading
+      ? ' pronounces_audio_status_loading'
+      : '') +
+    (playStatus === AudioPlayStatus.Play
+      ? ' pronounces_audio_status_play'
+      : '') +
+    (playStatus === AudioPlayStatus.Error
+      ? ' pronounces_audio_status_error'
+      : '');
+  return (
+    <button
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginRight: '1px',
+      }}
+      onClick={() => {
+        audioRef.current.src = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(selectedText)}&type=${type === 'UK' ? 1 : 2}`;
+        audioRef.current.play();
+      }}
+    >
+      {type === 'US' ? '美' : '英'}
+      <div className={AudioStatusClassName}></div>
+    </button>
+  );
 }
 
 const Comp = () => {
@@ -77,20 +113,26 @@ const Comp = () => {
   return (
     <div>
       {floatButtonVisible && (
-        <button
+        <div
           ref={saveTrigger}
           style={{
+            display: 'flex',
             position: 'fixed',
             zIndex: '9999',
             ...getFixedPositionByRightBottomPoint(56, 25, targetRect),
           }}
-          onClick={() => {
-            setFloatButtonVisible(false);
-            setOpenDisplayFrom(OpenDisplayFrom.FloatBtn);
-          }}
         >
-          📝 翻译
-        </button>
+          <AudioButton selectedText={selectedText} type="UK" />
+          <AudioButton selectedText={selectedText} type="US" />
+          <button
+            onClick={() => {
+              setFloatButtonVisible(false);
+              setOpenDisplayFrom(OpenDisplayFrom.FloatBtn);
+            }}
+          >
+            📝 翻译
+          </button>
+        </div>
       )}
       <div
         ref={saveTrigger}
@@ -122,14 +164,7 @@ const Comp = () => {
 };
 
 const PlasmoInline = () => {
-  const [blacklistWeb, setBlacklistWeb] = useState([]);
-  useEffect(() => {
-    (async () => {
-      const blacklist = (await storage.get('blacklistWeb')) as string[];
-      setBlacklistWeb(blacklist);
-    })();
-  }, []);
-  const isBan = blacklistWeb.some((l) => l === window.origin);
+  const isBan = useBan();
   return isBan ? <></> : <Comp />;
 };
 export default PlasmoInline;

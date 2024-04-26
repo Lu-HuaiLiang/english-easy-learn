@@ -1,5 +1,7 @@
+import { sendToBackground } from '@plasmohq/messaging';
+
 const forLowerCase = (text) => {
-  return text.toLowerCase();
+  return text?.toLowerCase();
 };
 
 const dFSTraverse = (rootNodes, result = [] as any[]) => {
@@ -20,32 +22,19 @@ const dFSTraverse = (rootNodes, result = [] as any[]) => {
   return result;
 };
 
-export const findDeleteXMARNode = (materialList) => {
-  if (materialList.length === 0) {
-    return [];
-  }
-  const Textels = dFSTraverse([document])
-    .filter((el) => el.nodeType === 3) // 文本节点
-    .filter((el) => el.nodeValue.trim())
-    .filter((it) => !!it)
-    .filter((it) => it.length > 3);
-
-  // 找到包含特点文本的Node节点index
-  const elIndexs = Textels.map((it) => it.nodeValue).reduce(
-    (pre, cur, index) => {
-      const hasExist = materialList.some((it) => {
-        return forLowerCase(cur).includes(forLowerCase(it.text));
-      });
-      return hasExist ? [...pre, index] : pre;
+// 找到特定节点｜耗时较高，交给ServiceWork执行，避免卡顿。
+const findByServiceWord = async (
+  TextelsNodeValue,
+  materialList,
+): Promise<any[]> => {
+  const resp = await sendToBackground({
+    name: 'findHighlightTextElement',
+    body: {
+      TextelsNodeValue,
+      materialList,
     },
-    [],
-  );
-
-  const els = elIndexs
-    .map((i) => Textels[i])
-    .map((e) => e.parentNode.parentNode);
-
-  return els;
+  });
+  return resp?.message || [];
 };
 
 // findTargetTextNode[dFSTraverse]
@@ -60,37 +49,13 @@ const findTargetTextNode = async (materialList) => {
     .filter((it) => it.length > 3);
 
   // 找到包含特点文本的Node节点index
-  const elIndexs = Textels.map((it) => it.nodeValue).reduce(
-    (pre, cur, index) => {
-      const hasExist = materialList.some((it) => {
-        return forLowerCase(cur).includes(forLowerCase(it.text));
-      });
-      return hasExist ? [...pre, index] : pre;
-    },
-    [],
+  const elIndexs = await findByServiceWord(
+    Textels.map((i) => i.nodeValue),
+    materialList,
   );
 
-  // const els = elIndexs.map((i) => Textels[i]);
-
-  // console.log(
-  //   'XMAR',
-  //   els.map((e) => ({
-  //     parent_nodename: e.parentNode.nodeName,
-  //     parent_dataset: e.parentNode.dataset,
-  //     e: e,
-  //     target: materialList.find((it) =>
-  //       forLowerCase(e.nodeValue).includes(forLowerCase(it.text)),
-  //     ),
-  //   })),
-  //   // els.map((e) => {}),
-  //   // elIndexs
-  //   //   .map((i) => Textels[i])
-  //   //   .filter((el) => {
-  //   //     return !(el.parentNode.nodeName === 'XMARK');
-  //   //   }),
-  // );
   // 最终返回的时候，包含特定文本的分割后的TextNode节点
-  return elIndexs
+  const nodes = elIndexs
     .map((i) => Textels[i])
     .filter((el) => {
       return !(el.parentNode.nodeName === 'XMARK');
@@ -205,6 +170,8 @@ const findTargetTextNode = async (materialList) => {
 
       return [...pre, ...resultNodes];
     }, []);
+
+  return nodes;
 };
 
 export default findTargetTextNode;
