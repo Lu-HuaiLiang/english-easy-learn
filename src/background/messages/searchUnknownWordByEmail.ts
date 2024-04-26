@@ -1,10 +1,9 @@
 import type { PlasmoMessaging } from '@plasmohq/messaging';
-import { host } from '~contents/shared/const';
-
-
 
 const searchUnknownWordByEmail = async (email) =>
-  fetch(`http://${host}:3000/searchUnknownWordByEmail?email=${email}`)
+  fetch(
+    `http://${process.env.PLASMO_PUBLIC_HOST}:3000/searchUnknownWordByEmail?email=${email}`,
+  )
     .then((res) => {
       return res.json();
     })

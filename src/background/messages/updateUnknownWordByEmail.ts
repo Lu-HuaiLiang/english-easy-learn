@@ -1,5 +1,4 @@
 import type { PlasmoMessaging } from '@plasmohq/messaging';
-import { host } from '~contents/shared/const';
 
 // 定义请求配置对象
 
@@ -12,7 +11,10 @@ const updateUnknownWordByEmail = async (data) => {
     body: JSON.stringify(data), // 将请求体数据转换为 JSON 字符串
   };
 
-  return fetch(`http://${host}:3000/updateUnknownWordByEmail`, requestOptions)
+  return fetch(
+    `http://${process.env.PLASMO_PUBLIC_HOST}:3000/updateUnknownWordByEmail`,
+    requestOptions,
+  )
     .then((res) => {
       return res.json();
     })

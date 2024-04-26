@@ -3,7 +3,7 @@ import { event } from '~contents/shared/utils/event';
 import findTargetTextNode from '../utils/highlightUtils/findNode';
 import { OpenDisplayFrom } from '../utils/type';
 
-export function useHighlight(props: any) {
+export function Highlight(props: any) {
   const {
     UnKnownWordList,
     setUnknownWordList,
@@ -102,7 +102,5 @@ export function useHighlight(props: any) {
     });
   };
 
-  return {
-    leaveHighlightTimerRef,
-  };
+  return <></>;
 }

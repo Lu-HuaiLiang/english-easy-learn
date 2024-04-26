@@ -31,6 +31,16 @@
     "typescript": "5.3.3"
   },
   "manifest": {
+    "web_accessible_resources": [
+      {
+        "resources": [
+          "resources/*.json"
+        ],
+        "matches": [
+          "<all_urls>"
+        ]
+      }
+    ],
     "host_permissions": [
       "https://*/*"
     ],

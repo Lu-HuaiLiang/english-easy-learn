@@ -1,8 +1,9 @@
 import type { PlasmoMessaging } from '@plasmohq/messaging';
-import { host } from '~contents/shared/const';
 
 const searchWordDetailInfo = async (inputValue) =>
-  fetch(`http://${host}:3000/searchWordDetailInfo?word=${inputValue}`)
+  fetch(
+    `http://${process.env.PLASMO_PUBLIC_HOST}:3000/searchWordDetailInfo?word=${inputValue}`,
+  )
     .then((res) => {
       return res.json();
     })

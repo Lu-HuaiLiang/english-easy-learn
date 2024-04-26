@@ -1,12 +1,11 @@
 import type { PlasmoCSConfig, PlasmoGetInlineAnchor } from 'plasmo';
 import cssText from 'data-text:./index.css';
-import { useEffect, useRef, useState, type MutableRefObject } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Display } from '~contents/highlight/components/Display';
 import {
   getFixedPositionByRightBottomPoint,
   getFixedPositionByLeftBottomPoint,
 } from '../shared/utils/getFixedPositionByWindow/index';
-import { useHighlight } from './hook/useHighlight';
 import { useFloatButtonState } from './hook/useFloatButtonState';
 import { useJudgeIsTrigger } from '~contents/shared/hooks/JudgeIsTrigger';
 import { OpenDisplayFrom } from './utils/type';
@@ -16,6 +15,8 @@ import {
   AudioPlayStatus,
   useAudioState,
 } from '~contents/shared/hooks/useAudioState';
+import { ErrorBoundary } from '~contents/shared/components/ErrorBoundary';
+import { Highlight } from './hook/useHighlight';
 
 export const config: PlasmoCSConfig = {
   matches: ['<all_urls>'],
@@ -39,7 +40,7 @@ function useGetUnKnownWordList(): any {
       const resp = await sendToBackground({
         name: 'searchUnknownWordByEmail',
         body: {
-          email: '815220870@qq.com',
+          email: process.env.PLASMO_PUBLIC_USER_EMAIL,
         },
       });
       resp.message && setUnknownWordList(resp.message);
@@ -68,7 +69,7 @@ function AudioButton(props: any) {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        marginRight: '1px',
+        marginRight: '2px',
       }}
       onClick={() => {
         audioRef.current.src = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(selectedText)}&type=${type === 'UK' ? 1 : 2}`;
@@ -90,16 +91,6 @@ const Comp = () => {
   const [floatButtonVisible, setFloatButtonVisible] = useState(false);
   const leaveHighlightTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
-  useHighlight({
-    leaveHighlightTimerRef,
-    UnKnownWordList,
-    setUnknownWordList,
-    setTargetRect,
-    setOpenDisplayFrom,
-    setSelectedText,
-    setFloatButtonVisible,
-  });
-
   useFloatButtonState({
     floatButtonVisible,
     setFloatButtonVisible,
@@ -109,6 +100,15 @@ const Comp = () => {
     setSelectedText,
     setTargetRect,
   });
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const a = await fetch(chrome.runtime.getURL('resources/a.json')).then(
+  //       (response) => response.json(),
+  //     );
+  //     console.log(a);
+  //   })();
+  // }, []);
 
   return (
     <div>
@@ -159,12 +159,24 @@ const Comp = () => {
           selectedText={selectedText}
         />
       </div>
+
+      {Boolean(Number(process.env.PLASMO_PUBLIC_USE_HIGHLIGHT)) && (
+        <Highlight
+          leaveHighlightTimerRef={leaveHighlightTimerRef}
+          UnKnownWordList={UnKnownWordList}
+          setUnknownWordList={setUnknownWordList}
+          setTargetRect={setTargetRect}
+          setOpenDisplayFrom={setOpenDisplayFrom}
+          setSelectedText={setSelectedText}
+          setFloatButtonVisible={setFloatButtonVisible}
+        />
+      )}
     </div>
   );
 };
 
 const PlasmoInline = () => {
   const isBan = useBan();
-  return isBan ? <></> : <Comp />;
+  return <ErrorBoundary>{isBan ? <></> : <Comp />}</ErrorBoundary>;
 };
 export default PlasmoInline;

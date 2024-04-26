@@ -5,7 +5,7 @@ const updateUnknownWordByEmail = (words: string[]) =>
   sendToBackground({
     name: 'updateUnknownWordByEmail',
     body: {
-      email: '815220870@qq.com',
+      email: process.env.PLASMO_PUBLIC_USER_EMAIL,
       wordJson: JSON.stringify(words),
     },
   });
