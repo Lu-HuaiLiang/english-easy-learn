@@ -39,7 +39,10 @@ function IndexPopup() {
       }}
     >
       <h1 style={{ fontFamily: 'Avenir Next', fontSize: '16px' }}>
-        📇 English Assistant
+        📇 English Assistant{' '}
+        <span style={{ fontSize: '13px', color: 'grey' }}>
+          ({process.env.PLASMO_TAG})
+        </span>
       </h1>
       <div
         style={{
@@ -47,6 +50,7 @@ function IndexPopup() {
           marginBottom: '10px',
           textDecorationLine: 'underline',
           color: 'rgb(0 123 198)',
+          width: 'fit-content',
         }}
         onClick={() =>
           chrome.tabs.create({
@@ -54,7 +58,39 @@ function IndexPopup() {
           })
         }
       >
-        🔗 吃瓜英语阅读网站
+        🔗 吃瓜英语阅读网站｜微信
+      </div>
+      <div
+        style={{
+          cursor: 'pointer',
+          marginBottom: '10px',
+          textDecorationLine: 'underline',
+          color: 'rgb(0 123 198)',
+          width: 'fit-content',
+        }}
+        onClick={() =>
+          chrome.tabs.create({
+            url: 'https://space.bilibili.com/365212208?spm_id_from=333.337.0.0',
+          })
+        }
+      >
+        🔗 Albert英语研习社｜bilibili
+      </div>
+      <div
+        style={{
+          cursor: 'pointer',
+          marginBottom: '10px',
+          textDecorationLine: 'underline',
+          color: 'rgb(0 123 198)',
+          width: 'fit-content',
+        }}
+        onClick={() =>
+          chrome.tabs.create({
+            url: 'https://space.bilibili.com/4029133',
+          })
+        }
+      >
+        🔗 邵艾伦Alan｜bilibili
       </div>
       <div
         style={{

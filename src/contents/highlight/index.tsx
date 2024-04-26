@@ -76,7 +76,7 @@ function AudioButton(props: any) {
         audioRef.current.play();
       }}
     >
-      {type === 'US' ? '美' : '英'}
+      👂🏻 {type === 'US' ? '美' : '英'}
       <div className={AudioStatusClassName}></div>
     </button>
   );
@@ -177,7 +177,7 @@ const Comp = () => {
 
 const PlasmoInline = () => {
   const isBan = useBan();
- 
+
   return <ErrorBoundary>{isBan ? <></> : <Comp />}</ErrorBoundary>;
 };
 export default PlasmoInline;
