@@ -177,6 +177,7 @@ const Comp = () => {
 
 const PlasmoInline = () => {
   const isBan = useBan();
+ 
   return <ErrorBoundary>{isBan ? <></> : <Comp />}</ErrorBoundary>;
 };
 export default PlasmoInline;

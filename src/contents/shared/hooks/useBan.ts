@@ -6,7 +6,7 @@ export function useBan() {
   useEffect(() => {
     (async () => {
       const blacklist = (await storage.get('blacklistWeb')) as string[];
-      setBlacklistWeb(blacklist);
+      setBlacklistWeb(blacklist || []);
     })();
   }, []);
   const isBan = blacklistWeb.some((l) => l === window.origin);
