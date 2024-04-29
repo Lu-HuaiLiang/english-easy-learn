@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { storage } from '~contents/shared/utils/storageUtils';
 import { useStorage } from '@plasmohq/storage/hook';
+import { sendToBackground } from '@plasmohq/messaging';
 
 const extractOrigin = (url: string): string => {
   const parser = new URL(url);
@@ -46,8 +47,15 @@ function IndexPopup() {
       }}
     >
       <h1 style={{ fontFamily: 'Avenir Next', fontSize: '16px' }}>
-        📇 En. Assit.{' '}
-        <span style={{ fontSize: '12px', color: 'grey', fontWeight: '400' }}>
+        📇 En. Assit.
+        <span
+          style={{
+            fontFamily: 'Avenir Next',
+            fontSize: '12px',
+            color: 'grey',
+            fontWeight: '400',
+          }}
+        >
           {process.env.PLASMO_TAG}
         </span>
       </h1>
