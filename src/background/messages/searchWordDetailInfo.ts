@@ -1,5 +1,7 @@
 import type { PlasmoMessaging } from '@plasmohq/messaging';
 
+const map = new Map();
+
 const searchWordDetailInfo = async (inputValue) =>
   fetch(
     `http://${process.env.PLASMO_PUBLIC_HOST}:3000/searchWordDetailInfo?word=${inputValue}`,
@@ -12,7 +14,15 @@ const searchWordDetailInfo = async (inputValue) =>
     });
 
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
+  const get = map.get(req.body.input);
+  if (get) {
+    // console.log('use store');
+    return res.send({
+      message: get,
+    });
+  }
   const message = await searchWordDetailInfo(req.body.input);
+  map.set(req.body.input, message);
   res.send({
     message,
   });

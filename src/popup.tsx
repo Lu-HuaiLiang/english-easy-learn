@@ -1,10 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { storage } from '~contents/shared/utils/storageUtils';
 import { useStorage } from '@plasmohq/storage/hook';
 
-const extractWebsite = (url: string): string => {
+const extractOrigin = (url: string): string => {
   const parser = new URL(url);
   return parser.origin;
+};
+
+const extractPathname = (url: string): string => {
+  const parser = new URL(url);
+  return parser.hostname;
 };
 
 function IndexPopup() {
@@ -14,12 +19,14 @@ function IndexPopup() {
     instance: storage,
   });
   const [checked, setChecked] = useState(true);
+  const activeTabURL = useRef('');
 
   useEffect(() => {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       const activeTab = tabs[0];
       const url = activeTab.url;
-      const website = extractWebsite(url);
+      const website = extractPathname(url);
+      activeTabURL.current = extractOrigin(url);
       setCurrentWebsite(website);
       setChecked(
         get && Array.isArray(get) ? !get.some((l) => website === l) : true,
@@ -39,16 +46,16 @@ function IndexPopup() {
       }}
     >
       <h1 style={{ fontFamily: 'Avenir Next', fontSize: '16px' }}>
-        📇 English Assistant{' '}
-        <span style={{ fontSize: '13px', color: 'grey' }}>
-          ({process.env.PLASMO_TAG})
+        📇 En. Assit.{' '}
+        <span style={{ fontSize: '12px', color: 'grey', fontWeight: '400' }}>
+          {process.env.PLASMO_TAG}
         </span>
       </h1>
       <div
         style={{
           cursor: 'pointer',
           marginBottom: '10px',
-          textDecorationLine: 'underline',
+          // textDecorationLine: 'underline',
           color: 'rgb(0 123 198)',
           width: 'fit-content',
         }}
@@ -64,7 +71,7 @@ function IndexPopup() {
         style={{
           cursor: 'pointer',
           marginBottom: '10px',
-          textDecorationLine: 'underline',
+          // textDecorationLine: 'underline',
           color: 'rgb(0 123 198)',
           width: 'fit-content',
         }}
@@ -80,7 +87,7 @@ function IndexPopup() {
         style={{
           cursor: 'pointer',
           marginBottom: '10px',
-          textDecorationLine: 'underline',
+          // textDecorationLine: 'underline',
           color: 'rgb(0 123 198)',
           width: 'fit-content',
         }}
@@ -108,14 +115,14 @@ function IndexPopup() {
             setChecked(e.target.checked);
             if (e.target.checked) {
               set((get) => {
-                return get.filter((a) => a !== currentWebsite);
+                return get.filter((a) => a !== activeTabURL.current);
               });
             } else {
               set((get) => {
                 if (Array.isArray(get)) {
-                  return Array.from(new Set(get.concat(currentWebsite)));
+                  return Array.from(new Set(get.concat(activeTabURL.current)));
                 } else {
-                  return [currentWebsite];
+                  return [activeTabURL.current];
                 }
               });
             }

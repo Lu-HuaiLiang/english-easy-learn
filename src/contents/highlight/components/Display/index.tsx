@@ -87,7 +87,6 @@ const sentences = (d: IWordDetail) => {
                 const nonHighlightedText = i.text.slice(currentIndex, start);
                 const highlighted = i.text.slice(start, end);
                 currentIndex = end;
-
                 return (
                   <span key={index}>
                     {nonHighlightedText}
@@ -133,9 +132,7 @@ const sentences = (d: IWordDetail) => {
                 <div
                   onClick={() => onClick(i.text, 'UK')}
                   className={AudioStatusClassName}
-                >
-                  👂🏻
-                </div>
+                ></div>
               </div>
             );
           })}
@@ -212,7 +209,6 @@ function useGetGoogleTranslation(
           option: useEnglish() ? { to: 'en' } : { to: 'zh-cn' },
         },
       });
-      console.log('useGetGoogleTranslation', resp.message);
       resp.message && setTrainslation(resp.message.text);
     })();
   }, [selectedText, openDisplayFrom]);

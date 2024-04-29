@@ -69,14 +69,18 @@ function AudioButton(props: any) {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        marginRight: '2px',
+        border: 'none',
+        cursor: 'pointer',
+        padding: '0 7px',
+        borderRight: 'solid 1px rgb(156 154 154)',
+        borderRadius: type == 'UK' ? '4px 0px 0px 4px' : '0px',
       }}
       onClick={() => {
         audioRef.current.src = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(selectedText)}&type=${type === 'UK' ? 1 : 2}`;
         audioRef.current.play();
       }}
     >
-      👂🏻 {type === 'US' ? '美' : '英'}
+      📻 {type === 'US' ? '美' : '英'}
       <div className={AudioStatusClassName}></div>
     </button>
   );
@@ -101,30 +105,29 @@ const Comp = () => {
     setTargetRect,
   });
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const a = await fetch(chrome.runtime.getURL('resources/a.json')).then(
-  //       (response) => response.json(),
-  //     );
-  //     console.log(a);
-  //   })();
-  // }, []);
-
   return (
     <div>
       {floatButtonVisible && (
         <div
           ref={saveTrigger}
           style={{
+            borderRadius: '4px',
+            border: 'solid 1px rgb(156 154 154)',
             display: 'flex',
             position: 'fixed',
             zIndex: '9999',
-            ...getFixedPositionByRightBottomPoint(56, 25, targetRect),
+            height: '24px',
+            ...getFixedPositionByRightBottomPoint(173, 25, targetRect),
           }}
         >
           <AudioButton selectedText={selectedText} type="UK" />
           <AudioButton selectedText={selectedText} type="US" />
           <button
+            style={{
+              border: 'none',
+              borderRadius: '0px 4px 4px 0px',
+              cursor: 'pointer',
+            }}
             onClick={() => {
               setFloatButtonVisible(false);
               setOpenDisplayFrom(OpenDisplayFrom.FloatBtn);
@@ -159,7 +162,6 @@ const Comp = () => {
           selectedText={selectedText}
         />
       </div>
-
       {Boolean(Number(process.env.PLASMO_PUBLIC_USE_HIGHLIGHT)) && (
         <Highlight
           leaveHighlightTimerRef={leaveHighlightTimerRef}

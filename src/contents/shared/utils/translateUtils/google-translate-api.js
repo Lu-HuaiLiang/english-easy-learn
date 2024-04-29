@@ -36,7 +36,6 @@ async function translate(text, opts = {}) {
 
   const urlWithQuery = `${url}?${params.toString()}&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t`;
 
-  console.log('urlWithQuery', urlWithQuery);
 
   try {
     const res = await fetch(urlWithQuery);
@@ -62,7 +61,6 @@ async function translate(text, opts = {}) {
     //     result.raw = res.body;
     // }
 
-    console.log('body', body);
     body[0].forEach((obj) => {
       if (obj[0]) {
         result.text += obj[0];
