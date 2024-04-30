@@ -33,7 +33,9 @@ function IndexPopup() {
         get && Array.isArray(get) ? !get.some((l) => website === l) : true,
       );
     });
-  }, [get]);
+  }, []);
+
+  console.log('==checked', checked);
 
   return (
     <div
@@ -47,22 +49,82 @@ function IndexPopup() {
       }}
     >
       <h1 style={{ fontFamily: 'Avenir Next', fontSize: '16px' }}>
-        📇 En. Assit.
+        📇 English. Assit.
         <span
           style={{
             fontFamily: 'Avenir Next',
             fontSize: '12px',
-            color: 'grey',
-            fontWeight: '400',
+            // color: 'grey',
+            fontWeight: '500',
+            marginLeft: '8px',
+            marginBottom: '8px',
           }}
         >
-          {process.env.PLASMO_TAG}
+          {/* {process.env.PLASMO_TAG} */}v1.0.0
         </span>
       </h1>
       <div
         style={{
+          padding: '10px',
+          borderRadius: '4px',
+          background: '#eee',
+        }}
+      >
+        <div
+          style={{
+            fontFamily: 'Avenir Next',
+            fontSize: '13px',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
+        >
+          📍允许在此网站运行？
+          <input
+            // disabled={true}
+            onChange={(e) => {
+              setChecked(e.target.checked);
+              if (e.target.checked) {
+                set((get) => {
+                  return get.filter((a) => a !== activeTabURL.current);
+                });
+              } else {
+                set((get) => {
+                  if (Array.isArray(get)) {
+                    return Array.from(
+                      new Set(get.concat(activeTabURL.current)),
+                    );
+                  } else {
+                    return [activeTabURL.current];
+                  }
+                });
+              }
+            }}
+            style={{ cursor: 'pointer' }}
+            type="checkbox"
+            checked={checked}
+          />
+        </div>
+        <div
+          style={{
+            marginLeft: '12px',
+            marginTop: '4px',
+            width: '165px',
+            color: '',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+        >
+          {currentWebsite}
+        </div>
+      </div>
+      <div style={{ fontSize: '13px', marginTop: '20px' }}>学习链接分享🍞</div>
+      <div
+        style={{
           cursor: 'pointer',
-          marginBottom: '10px',
+          marginTop: '10px',
+          marginBottom: '5px',
           // textDecorationLine: 'underline',
           color: 'rgb(0 123 198)',
           width: 'fit-content',
@@ -78,7 +140,7 @@ function IndexPopup() {
       <div
         style={{
           cursor: 'pointer',
-          marginBottom: '10px',
+          marginBottom: '5px',
           // textDecorationLine: 'underline',
           color: 'rgb(0 123 198)',
           width: 'fit-content',
@@ -106,42 +168,6 @@ function IndexPopup() {
         }
       >
         🔗 邵艾伦Alan｜bilibili
-      </div>
-      <div
-        style={{
-          fontFamily: 'Avenir Next',
-          fontSize: '13px',
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
-      >
-        📍允许在此网站运行？
-        <input
-          // disabled={true}
-          onChange={(e) => {
-            setChecked(e.target.checked);
-            if (e.target.checked) {
-              set((get) => {
-                return get.filter((a) => a !== activeTabURL.current);
-              });
-            } else {
-              set((get) => {
-                if (Array.isArray(get)) {
-                  return Array.from(new Set(get.concat(activeTabURL.current)));
-                } else {
-                  return [activeTabURL.current];
-                }
-              });
-            }
-          }}
-          style={{ cursor: 'pointer' }}
-          type="checkbox"
-          checked={checked}
-        />
-      </div>
-      <div style={{ marginLeft: '12px', marginTop: '4px', color: '' }}>
-        {currentWebsite}
       </div>
     </div>
   );

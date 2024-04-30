@@ -117,6 +117,7 @@ const Comp = () => {
             position: 'fixed',
             zIndex: '9999',
             height: '24px',
+            background: 'rgb(239, 239, 239)',
             ...getFixedPositionByRightBottomPoint(173, 25, targetRect),
           }}
         >
