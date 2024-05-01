@@ -16,7 +16,7 @@ import {
   useAudioState,
 } from '~contents/shared/hooks/useAudioState';
 import { ErrorBoundary } from '~contents/shared/components/ErrorBoundary';
-import { Highlight } from './hook/useHighlight';
+import { useHighlight } from './hook/useHighlight';
 import { useStorageWord } from '~contents/shared/utils/storageUtils/word';
 
 export const config: PlasmoCSConfig = {
@@ -107,6 +107,16 @@ const Comp = () => {
     setTargetRect,
   });
 
+  useHighlight({
+    leaveHighlightTimerRef,
+    UnKnownWordList,
+    setUnknownWordList,
+    setTargetRect,
+    setOpenDisplayFrom,
+    setSelectedText,
+    setFloatButtonVisible,
+  });
+
   return (
     <div>
       {floatButtonVisible && (
@@ -165,17 +175,6 @@ const Comp = () => {
           selectedText={selectedText}
         />
       </div>
-      {Boolean(Number(process.env.PLASMO_PUBLIC_USE_HIGHLIGHT)) && (
-        <Highlight
-          leaveHighlightTimerRef={leaveHighlightTimerRef}
-          UnKnownWordList={UnKnownWordList}
-          setUnknownWordList={setUnknownWordList}
-          setTargetRect={setTargetRect}
-          setOpenDisplayFrom={setOpenDisplayFrom}
-          setSelectedText={setSelectedText}
-          setFloatButtonVisible={setFloatButtonVisible}
-        />
-      )}
     </div>
   );
 };

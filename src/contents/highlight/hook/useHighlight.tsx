@@ -3,7 +3,7 @@ import { event } from '~contents/shared/utils/event';
 import findTargetTextNode from '../utils/highlightUtils/findNode';
 import { OpenDisplayFrom } from '../utils/type';
 
-export function Highlight(props: any) {
+export function useHighlight(props: any) {
   const {
     UnKnownWordList,
     setUnknownWordList,
@@ -51,13 +51,6 @@ export function Highlight(props: any) {
     } else if (insertWordRef.current) {
       handleHighlighter([insertWordRef.current]);
       insertWordRef.current = '';
-    } else if (
-      UnKnownWordList.length === 0 &&
-      Array.from(XmarkNodeMapRef.current.keys())
-    ) {
-      Array.from(XmarkNodeMapRef.current.keys()).forEach((w) =>
-        deleteHighlight(w),
-      );
     } else {
       handleHighlighter(UnKnownWordList);
     }
@@ -108,6 +101,4 @@ export function Highlight(props: any) {
       });
     });
   };
-
-  return <></>;
 }

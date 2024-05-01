@@ -246,12 +246,10 @@ function WordDisplay(props: {
       <div className="selection-display">
         {selectedText}
         <div className="display-container-tool">
-          {Boolean(Number(process.env.PLASMO_PUBLIC_USE_HIGHLIGHT)) && (
-            <AddWordBookButton
-              UnKnownWordList={UnKnownWordList}
-              selectedText={selectedText}
-            />
-          )}
+          <AddWordBookButton
+            UnKnownWordList={UnKnownWordList}
+            selectedText={selectedText}
+          />
         </div>
       </div>
       <div className="detail_content">
