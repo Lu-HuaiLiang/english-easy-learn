@@ -34,8 +34,8 @@ export function Highlight(props: any) {
     };
   }, []);
 
-  const deleteHighlight = () => {
-    const del_nodes = XmarkNodeMapRef.current.get(deleteWordRef.current);
+  const deleteHighlight = (w) => {
+    const del_nodes = XmarkNodeMapRef.current.get(w);
     del_nodes?.forEach((n) => {
       const node = document.createTextNode(n.dataset.originText);
       n.replaceWith(node);
@@ -46,11 +46,18 @@ export function Highlight(props: any) {
 
   useEffect(() => {
     if (deleteWordRef.current) {
-      deleteHighlight();
+      deleteHighlight(deleteWordRef.current);
       return;
     } else if (insertWordRef.current) {
       handleHighlighter([insertWordRef.current]);
       insertWordRef.current = '';
+    } else if (
+      UnKnownWordList.length === 0 &&
+      Array.from(XmarkNodeMapRef.current.keys())
+    ) {
+      Array.from(XmarkNodeMapRef.current.keys()).forEach((w) =>
+        deleteHighlight(w),
+      );
     } else {
       handleHighlighter(UnKnownWordList);
     }

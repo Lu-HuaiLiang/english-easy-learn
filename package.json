@@ -45,7 +45,8 @@
       "https://*/*"
     ],
     "permissions": [
-      "tabs"
+      "tabs",
+      "clipboardWrite"
     ]
   }
 }

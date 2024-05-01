@@ -3,6 +3,7 @@ import { storage } from '~contents/shared/utils/storageUtils';
 import { useStorage } from '@plasmohq/storage/hook';
 import { sendToBackground } from '@plasmohq/messaging';
 import { link } from 'fs';
+import { useStorageWord } from '~contents/shared/utils/storageUtils/word';
 
 const extractOrigin = (url: string): string => {
   const parser = new URL(url);
@@ -51,12 +52,17 @@ const RecommendList = [
 
 function IndexPopup() {
   const [currentWebsite, setCurrentWebsite] = useState<string>('');
-  const [get, set] = useStorage({
-    key: 'blacklistWeb',
-    instance: storage,
-  });
+  const [get, set] = useStorage(
+    {
+      key: 'blacklistWeb',
+      instance: storage,
+    },
+    (v) => (v === undefined ? [] : v),
+  );
+  const [UnKnownWordList, setUnknownWordList] = useStorageWord();
   const [checked, setChecked] = useState(true);
   const activeTabURL = useRef('');
+  const [hasCopy, setHasCopy] = useState(false);
 
   useEffect(() => {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -126,13 +132,7 @@ function IndexPopup() {
                 });
               } else {
                 set((get) => {
-                  if (Array.isArray(get)) {
-                    return Array.from(
-                      new Set(get.concat(activeTabURL.current)),
-                    );
-                  } else {
-                    return [activeTabURL.current];
-                  }
+                  return Array.from(new Set(get.concat(activeTabURL.current)));
                 });
               }
             }}
@@ -158,7 +158,31 @@ function IndexPopup() {
       <div
         style={{
           fontSize: '13px',
-          marginTop: '20px',
+          marginTop: '25px',
+          marginBottom: '10px',
+          width: 'fit-content',
+          borderBottom: '1px dotted #00a792',
+          cursor: 'pointer',
+        }}
+        onClick={() => {
+          // UnKnownWordList
+          navigator.clipboard
+            .writeText(UnKnownWordList?.join(',') ?? '')
+            .then(() => {
+              console.log('Text copied to clipboard');
+            })
+            .catch((err) => {
+              console.error('Error in copying text: ', err);
+            });
+          setHasCopy(true);
+        }}
+      >
+        复制生词本的所有单词 {hasCopy ? '🟢' : '⚪️'}
+      </div>
+      <div
+        style={{
+          fontSize: '13px',
+          marginTop: '8px',
           marginBottom: '10px',
         }}
       >

@@ -17,6 +17,7 @@ import {
 } from '~contents/shared/hooks/useAudioState';
 import { ErrorBoundary } from '~contents/shared/components/ErrorBoundary';
 import { Highlight } from './hook/useHighlight';
+import { useStorageWord } from '~contents/shared/utils/storageUtils/word';
 
 export const config: PlasmoCSConfig = {
   matches: ['<all_urls>'],
@@ -33,21 +34,21 @@ export const getInlineAnchor: PlasmoGetInlineAnchor = () => document.body;
 
 export const getShadowHostId = () => 'plasmo-inline-example-unique-id';
 
-function useGetUnKnownWordList(): any {
-  const [UnKnownWordList, setUnknownWordList] = useState([]);
-  useEffect(() => {
-    (async () => {
-      const resp = await sendToBackground({
-        name: 'searchUnknownWordByEmail',
-        body: {
-          email: process.env.PLASMO_PUBLIC_USER_EMAIL,
-        },
-      });
-      resp.message && setUnknownWordList(resp.message);
-    })();
-  }, []);
-  return [UnKnownWordList, setUnknownWordList];
-}
+// function useGetUnKnownWordList(): any {
+//   const [UnKnownWordList, setUnknownWordList] = useState([]);
+//   useEffect(() => {
+//     (async () => {
+//       const resp = await sendToBackground({
+//         name: 'searchUnknownWordByEmail',
+//         body: {
+//           email: process.env.PLASMO_PUBLIC_USER_EMAIL,
+//         },
+//       });
+//       resp.message && setUnknownWordList(resp.message);
+//     })();
+//   }, []);
+//   return [UnKnownWordList, setUnknownWordList];
+// }
 
 function AudioButton(props: any) {
   const { selectedText, type } = props;
@@ -90,7 +91,8 @@ const Comp = () => {
   const [selectedText, setSelectedText] = useState('');
   const [openDisplayFrom, setOpenDisplayFrom] = useState(OpenDisplayFrom.Close);
   const [targetRect, setTargetRect] = useState<DOMRect | undefined>();
-  const [UnKnownWordList, setUnknownWordList] = useGetUnKnownWordList();
+  // const [UnKnownWordList, setUnknownWordList] = useGetUnKnownWordList();
+  const [UnKnownWordList, setUnknownWordList] = useStorageWord();
   const { saveTrigger, isTrigger } = useJudgeIsTrigger();
   const [floatButtonVisible, setFloatButtonVisible] = useState(false);
   const leaveHighlightTimerRef = useRef<ReturnType<typeof setTimeout>>();
@@ -180,7 +182,6 @@ const Comp = () => {
 
 const PlasmoInline = () => {
   const isBan = useBan();
-
   return <ErrorBoundary>{isBan ? <></> : <Comp />}</ErrorBoundary>;
 };
 export default PlasmoInline;
