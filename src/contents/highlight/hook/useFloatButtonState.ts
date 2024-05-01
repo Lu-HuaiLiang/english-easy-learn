@@ -28,7 +28,6 @@ export function useFloatButtonState(props: any) {
   }, [openDisplayFrom]);
 
   useEffect(() => {
-    document.body.style.position = 'relative';
     const handleSelection = (event) => {
       if (isTrigger(event.target)) {
         return;

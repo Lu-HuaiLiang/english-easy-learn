@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { storage } from '~contents/shared/utils/storageUtils';
 import { useStorage } from '@plasmohq/storage/hook';
 import { sendToBackground } from '@plasmohq/messaging';
+import { link } from 'fs';
 
 const extractOrigin = (url: string): string => {
   const parser = new URL(url);
@@ -12,6 +13,41 @@ const extractPathname = (url: string): string => {
   const parser = new URL(url);
   return parser.hostname;
 };
+
+const RecommendList = [
+  {
+    name: '🔗 跟着LR吃瓜学英语',
+    link: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA5MjM3NDk5Ng%3D%3D&action=getalbum&album_id=1786181186118057992',
+  },
+  {
+    name: '🔗 跟着LR看新闻学英语',
+    link: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA5MjM3NDk5Ng%3D%3D&action=getalbum&album_id=2232928099707486216',
+  },
+  {
+    name: '🔗 二十大报告笔记｜微信',
+    link: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA5MjM3NDk5Ng%3D%3D&action=getalbum&album_id=2625814674491621377',
+  },
+  {
+    name: '🔗 政府工作报告笔记｜微信',
+    link: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA5MjM3NDk5Ng%3D%3D&action=getalbum&album_id=1786177117945167873',
+  },
+  {
+    name: '🔗 吃瓜英语阅读网站｜微信',
+    link: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA5MjM3NDk5Ng==&action=getalbum&album_id=2973735650787115013',
+  },
+  {
+    name: '🔗 经济学人｜微信',
+    link: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA5MjM3NDk5Ng%3D%3D&action=getalbum&album_id=2209670519946313732',
+  },
+  {
+    name: '🔗 Albert英语研习社｜bilibili',
+    link: 'https://space.bilibili.com/365212208',
+  },
+  {
+    name: '🔗 邵艾伦Alan｜bilibili',
+    link: 'https://space.bilibili.com/4029133',
+  },
+];
 
 function IndexPopup() {
   const [currentWebsite, setCurrentWebsite] = useState<string>('');
@@ -30,12 +66,12 @@ function IndexPopup() {
       activeTabURL.current = extractOrigin(url);
       setCurrentWebsite(website);
       setChecked(
-        get && Array.isArray(get) ? !get.some((l) => website === l) : true,
+        get && Array.isArray(get)
+          ? !get.some((l) => activeTabURL.current === l)
+          : true,
       );
     });
-  }, []);
-
-  console.log('==checked', checked);
+  }, [get]);
 
   return (
     <div
@@ -119,56 +155,36 @@ function IndexPopup() {
           {currentWebsite}
         </div>
       </div>
-      <div style={{ fontSize: '13px', marginTop: '20px' }}>学习链接分享🍞</div>
       <div
         style={{
-          cursor: 'pointer',
-          marginTop: '10px',
-          marginBottom: '5px',
-          // textDecorationLine: 'underline',
-          color: 'rgb(0 123 198)',
-          width: 'fit-content',
-        }}
-        onClick={() =>
-          chrome.tabs.create({
-            url: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA5MjM3NDk5Ng==&action=getalbum&album_id=2973735650787115013&scene=173&subscene=&sessionid=svr_044cd68460d&enterid=1712978938&from_msgid=2650773861&from_itemidx=2&count=3&nolastread=1#wechat_redirect',
-          })
-        }
-      >
-        🔗 吃瓜英语阅读网站｜微信
-      </div>
-      <div
-        style={{
-          cursor: 'pointer',
-          marginBottom: '5px',
-          // textDecorationLine: 'underline',
-          color: 'rgb(0 123 198)',
-          width: 'fit-content',
-        }}
-        onClick={() =>
-          chrome.tabs.create({
-            url: 'https://space.bilibili.com/365212208?spm_id_from=333.337.0.0',
-          })
-        }
-      >
-        🔗 Albert英语研习社｜bilibili
-      </div>
-      <div
-        style={{
-          cursor: 'pointer',
+          fontSize: '13px',
+          marginTop: '20px',
           marginBottom: '10px',
-          // textDecorationLine: 'underline',
-          color: 'rgb(0 123 198)',
-          width: 'fit-content',
         }}
-        onClick={() =>
-          chrome.tabs.create({
-            url: 'https://space.bilibili.com/4029133',
-          })
-        }
       >
-        🔗 邵艾伦Alan｜bilibili
+        学习链接分享🍞
       </div>
+      {RecommendList?.map((i) => {
+        return (
+          <div
+            key={i.name}
+            style={{
+              cursor: 'pointer',
+              marginBottom: '5px',
+              // textDecorationLine: 'underline',
+              color: 'rgb(0 123 198)',
+              width: 'fit-content',
+            }}
+            onClick={() =>
+              chrome.tabs.create({
+                url: i.link,
+              })
+            }
+          >
+            {i.name}
+          </div>
+        );
+      })}
     </div>
   );
 }

@@ -74,7 +74,7 @@ const explain_list = (d: IWordDetail) => {
 const sentences = (d: IWordDetail) => {
   return (
     <>
-      {d.sentences && d.sentences.length && (
+      {d.sentences && d.sentences?.length && (
         <div className="sentences_title">Sentences</div>
       )}
       <div className="sentences_list">
@@ -133,6 +133,26 @@ const sentences = (d: IWordDetail) => {
                   onClick={() => onClick(i.text, 'UK')}
                   className={AudioStatusClassName}
                 ></div>
+              </div>
+            );
+          })}
+      </div>
+    </>
+  );
+};
+
+const phrases = (d: IWordDetail) => {
+  return (
+    <>
+      {d.phrases && d.phrases?.length && (
+        <div className="sentences_title">Phrases</div>
+      )}
+      <div className="phrases_list">
+        {d.phrases &&
+          d.phrases?.map((i) => {
+            return (
+              <div>
+                🍒 {i.text} <span className="phrases_trans">{i.trans}</span>
               </div>
             );
           })}
@@ -241,6 +261,7 @@ function WordDisplay(props: {
               {pronounces(d)}
               {explain_list(d)}
               {sentences(d)}
+              {phrases(d)}
               {forms(d)}
             </div>
           );

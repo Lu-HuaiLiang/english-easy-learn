@@ -18,6 +18,10 @@ export function AddWordBookButton(props: {
   const isAdd = UnKnownWordList?.some((w) => w === selectedText);
   return (
     <div
+      className="noselect"
+      style={{
+        borderBottom: isAdd ? '1px dotted #00a792' : '1px dotted grey',
+      }}
       onClick={() => {
         if (isAdd) {
           updateUnknownWordByEmail(
@@ -30,7 +34,7 @@ export function AddWordBookButton(props: {
         }
       }}
     >
-      {isAdd ? '✅ 已加入单词本' : '⏏️ 加入单词本'}
+      {isAdd ? '🟢 已加生词本' : '⚪️ 点击加生词'}
     </div>
   );
 }
