@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { allWords } from '~contents/shared/const/word';
+// import { allWords } from '~contents/shared/const/word';
 import { useStorageWord } from '~contents/shared/utils/storageUtils/word';
 
 const DisplayWordItem = (props) => {
@@ -37,6 +37,10 @@ const DisplayWordItem = (props) => {
   );
 };
 
+const forLowerCase = (text) => {
+  return text?.toLowerCase();
+};
+
 function IndexOptions() {
   const [data, setData] = useState('');
   const [UnKnownWordList, setUnknownWordList] = useStorageWord();
@@ -71,15 +75,23 @@ function IndexOptions() {
       >
         <div>{hasFinish ? '🟢' : '⚪️'} 生词本｜导入</div>
         <button
-          onClick={() => {
-            const words = data.split('\u000A').filter(Boolean);
-            const wrong_words = words.filter((w) => !allWords.includes(w));
+          onClick={async () => {
+            const allWords = (await import('~contents/shared/const/word'))
+              .allWords;
+            console.log(allWords);
+            const words = data
+              .split('\u000A')
+              .filter(Boolean)
+              .map(forLowerCase);
+            const wrong_words = words.filter(
+              (w) => !allWords.map(forLowerCase).includes(w),
+            );
             const right_words = words.filter((w) => !wrong_words.includes(w));
             // console.log(words);
             setFailWords(wrong_words);
             setSucessWords(right_words);
-            setUnknownWordList((words) => [
-              ...new Set(words.concat(right_words)),
+            setUnknownWordList([
+              ...new Set(UnKnownWordList.concat(right_words)),
             ]);
             setHasFinish(true);
           }}

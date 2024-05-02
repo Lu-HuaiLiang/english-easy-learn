@@ -166,7 +166,6 @@ function IndexPopup() {
         style={{
           fontSize: '13px',
           marginTop: '25px',
-          marginBottom: '10px',
           width: 'fit-content',
           borderBottom: '1px dotted #00a792',
           cursor: 'pointer',
@@ -190,8 +189,7 @@ function IndexPopup() {
       <div
         style={{
           fontSize: '13px',
-          marginTop: '5px',
-          marginBottom: '5px',
+          marginTop: '10px',
           width: 'fit-content',
           borderBottom: '1px dotted #00a792',
           cursor: 'pointer',
@@ -202,11 +200,10 @@ function IndexPopup() {
       >
         单词导入生词本
       </div>
-
       <div
         style={{
           fontSize: '13px',
-          marginTop: '5px',
+          marginTop: '10px',
           marginBottom: '10px',
           // width: 'fit-content',
           borderBottom: '1px dotted #00a792',
@@ -220,6 +217,7 @@ function IndexPopup() {
             if (hasLockDelete) {
               return;
             }
+            setUnknownWordList([]);
             setHasDelete(true);
           }}
         >

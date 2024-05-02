@@ -1,23 +1,7 @@
 import { useStorage } from '@plasmohq/storage/hook';
 import { storage } from '.';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { sendToBackground } from '@plasmohq/messaging';
-
-function useGetUnKnownWordList(): any {
-  const [UnKnownWordList, setUnknownWordList] = useState([]);
-  useEffect(() => {
-    (async () => {
-      const resp = await sendToBackground({
-        name: 'searchUnknownWordByEmail',
-        body: {
-          email: process.env.PLASMO_PUBLIC_USER_EMAIL,
-        },
-      });
-      resp.message && setUnknownWordList(resp.message);
-    })();
-  }, []);
-  return [UnKnownWordList, setUnknownWordList];
-}
 
 const updateUnknownWordByEmail = (words: string[]) =>
   sendToBackground({
@@ -29,20 +13,35 @@ const updateUnknownWordByEmail = (words: string[]) =>
   });
 
 export function useStorageWord() {
-  const [getNetWord, setNetWord] = useGetUnKnownWordList();
-  const setNetWord1 = (before) => {
-    const after = before?.(getNetWord) || before;
-    updateUnknownWordByEmail(after);
-    setNetWord(after);
+  const [UnKnownWordList, setUnknownWordList] = useState<string[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      if (process.env.PLASMO_PUBLIC_USER_EMAIL) {
+        const resp = await sendToBackground({
+          name: 'searchUnknownWordByEmail',
+          body: {
+            email: process.env.PLASMO_PUBLIC_USER_EMAIL,
+          },
+        });
+        resp.message && setUnknownWordList(resp.message);
+      } else {
+        const resp = (await storage.get('UnKnownWordList')) as [];
+        resp && setUnknownWordList(resp || []);
+      }
+    })();
+  }, []);
+
+  console.log('UnKnownWordList', UnKnownWordList);
+
+  const setState1 = (arr: string[]) => {
+    console.log(arr);
+    if (process.env.PLASMO_PUBLIC_USER_EMAIL) {
+      updateUnknownWordByEmail(arr);
+    } else {
+      storage.set('UnKnownWordList', arr);
+    }
+    setUnknownWordList(arr);
   };
-  const [getStorage, setStorage] = useStorage(
-    {
-      key: 'UnKnownWordList',
-      instance: storage,
-    },
-    (v) => (v === undefined ? [] : v),
-  );
-  return process.env.PLASMO_PUBLIC_USER_EMAIL
-    ? [getNetWord, setNetWord1]
-    : [getStorage, setStorage];
+  return [UnKnownWordList, setState1];
 }

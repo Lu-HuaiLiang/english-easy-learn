@@ -22,17 +22,17 @@ export function useHighlight(props: any) {
   useEffect(() => {
     event.on('delete_unknown', (word) => {
       deleteWordRef.current = word;
-      setUnknownWordList((words: string[]) => words.filter((w) => w !== word));
+      setUnknownWordList(UnKnownWordList.filter((w) => w !== word));
     });
     event.on('add_unknown', (word) => {
       insertWordRef.current = word;
-      setUnknownWordList((words: string[]) => words.concat(word));
+      setUnknownWordList(UnKnownWordList.concat(word));
     });
     return () => {
       event.off('delete_unknown');
       event.off('add_unknown');
     };
-  }, []);
+  }, [UnKnownWordList]);
 
   const deleteHighlight = (w) => {
     const del_nodes = XmarkNodeMapRef.current.get(w);
