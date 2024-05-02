@@ -33,7 +33,6 @@ export function useStorageWord() {
   }, []);
 
   const setState1 = (arr: string[]) => {
-    console.log(arr);
     if (process.env.PLASMO_PUBLIC_USER_EMAIL) {
       updateUnknownWordByEmail(arr);
     } else {
@@ -41,5 +40,7 @@ export function useStorageWord() {
     }
     setUnknownWordList(arr);
   };
+
+
   return [UnKnownWordList, setState1];
 }

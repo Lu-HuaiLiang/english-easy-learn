@@ -190,6 +190,7 @@ function useGetDetail(props: {
     const containerRef = document.getElementById('word-display-container');
     containerRef?.scrollTo(0, 0);
     (async () => {
+      // const o = await stora
       const resp = await sendToBackground({
         name: 'searchWordDetailInfo',
         body: {

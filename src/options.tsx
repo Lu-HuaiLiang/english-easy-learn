@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { allWords } from '~contents/shared/const/word';
 // import { allWords } from '~contents/shared/const/word';
 import { useStorageWord } from '~contents/shared/utils/storageUtils/word';
 
@@ -83,17 +84,15 @@ function IndexOptions() {
               .split('\u000A')
               .filter(Boolean)
               .map(forLowerCase);
-            const wrong_words = words.filter(
-              (w) => !allWords.map(forLowerCase).includes(w),
-            );
+            const wrong_words = words.filter((w) => !allWords.includes(w));
             const right_words = words.filter((w) => !wrong_words.includes(w));
             // console.log(words);
             setFailWords(wrong_words);
             setSucessWords(right_words);
+            setHasFinish(true);
             setUnknownWordList([
               ...new Set(UnKnownWordList.concat(right_words)),
             ]);
-            setHasFinish(true);
           }}
         >
           确定
