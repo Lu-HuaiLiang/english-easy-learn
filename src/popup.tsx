@@ -91,7 +91,8 @@ function IndexPopup() {
       }}
     >
       <h1 style={{ fontFamily: 'Avenir Next', fontSize: '16px' }}>
-        📇 English. Assit.
+        <span style={{ fontFamily: 'Avenir Next', fontSize: '25px' }}>🍊</span>{' '}
+        easy·learn
         <span
           style={{
             fontFamily: 'Avenir Next',
@@ -102,7 +103,7 @@ function IndexPopup() {
             marginBottom: '8px',
           }}
         >
-          {/* {process.env.PLASMO_TAG} */}v1.0.0
+          v1.0.0
         </span>
       </h1>
       <div
@@ -184,9 +185,10 @@ function IndexPopup() {
           fontSize: '13px',
           marginTop: '8px',
           marginBottom: '10px',
+          fontFamily: 'Avenir Next',
         }}
       >
-        学习链接分享🍞
+        学习链接分享
       </div>
       {RecommendList?.map((i) => {
         return (

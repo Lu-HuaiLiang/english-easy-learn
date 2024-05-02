@@ -1,24 +1,40 @@
-# Helo Chrome Extension
-Helo，是用于个人英语辅助式语言学习，浏览器插件。
+# 🍊 english-easy-learn（Chrome插件）
+
+👏 欢迎使用[english-easy-learn](https://github.com/Lu-HuaiLiang/english-easy-learn-chrome-extension)！开发 english-easy-learn 的最初目的是为了辅助我个人的英语学习。在最初的版本中，[english-easy-learn](https://github.com/Lu-HuaiLiang/english-easy-learn-chrome-extension) 只有查单词和翻译的功能，后面为了改善自己的发音，和更好的识别生词，我加入了朗读功能和生词本功能。这些对于我在记忆单词、理解单词、习惯英语发音方面，有很好的帮助。独乐乐不如众乐乐，所以我把它开源了。如果遇到问题或者有什么新想法想法欢迎给我提[issue](https://github.com/Lu-HuaiLiang/english-easy-learn-chrome-extension/issues)。如果你也喜欢[english-easy-learn](https://github.com/Lu-HuaiLiang/english-easy-learn-chrome-extension)，记得帮我点个Star🌟，感谢！
+
+# 直接下载使用｜Quick Use
+
+# 主要能力｜Highlighted Features
+
+1. 📝 划词查单词
+2. 📝 划词句子翻译｜支持 unlimited Google Translation（需要本地外网环境）
+3. 📻 划句子朗读
+4. 🌟 记录生词，并在原文标记高亮出来。支持导出生词！
+
+> 🚫 生词本不支持（联网）
+> 注意⚠️如果你卸载掉了插件会使得生词本丢失，因为每一次添加生词只是添加到了插件的`chrome.storage.sync`上，卸载掉了插件会使得存储一起卸载掉。
+
+# 生词本联网
+为啥我不做生词本联网？加入生词本联网，意味着需要购置服务器，这对于开源的项目来说，不太可能！
+
+但还是有解决办法提供给各位的：
+
+如果需要生词本联网，有一个免费的方式就是，使用七牛云的对象存储功能免费。每一次更新生词时，
 
 
 
 
-# 不打算做的功能
 
-【高亮】不打算对外开放，所以也不用做登陆功能了。
-【翻译搜索】优先级不高，而且UI没想好，也没有精力做，现阶段我使用频率不高。
+# 本地调试
 
-# 优先级不高
+框架采用的是 [plasmo](https://github.com/PlasmoHQ/plasmo)
 
-【网站禁用功能】
-【上线监控？埋点监控？】
-【后端那边，自动化部署。修改咋办？】
+可以用以下命令调试!!!
+```js
+npm i
+npm run dev
+```
 
-# 规划TODO
-【英文解释】
-✅【单词爬虫】高优。将网易的搜索词，遍历一遍。
-✅【单词发音】优先级高。
-【插件离线】将高亮部分剥离开来，单词数据离线化。
-【翻译增加中文翻译英文】
-✅【性能】高亮，拆分耗时部分，到service worker运行
+
+
+
