@@ -1,5 +1,6 @@
 import type { PlasmoMessaging } from '@plasmohq/messaging';
-import { storage } from '~contents/shared/utils/storageUtils';
+
+const map = new Map();
 
 const searchWordDetailInfo = async (inputValue) =>
   fetch(
@@ -13,9 +14,6 @@ const searchWordDetailInfo = async (inputValue) =>
     });
 
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
-  const storageWordMap = (await storage.get('wordMap')) as Array<[string, any]>;
-  const defaultMap = new Map();
-  const map = storageWordMap ? new Map(storageWordMap) : defaultMap;
   const get = map.get(req.body.input);
   if (get) {
     return res.send({
@@ -24,7 +22,6 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
   }
   const message = await searchWordDetailInfo(req.body.input);
   map.set(req.body.input, message);
-  storage.set('wordMap', Array.from(map.entries()));
   res.send({
     message,
   });

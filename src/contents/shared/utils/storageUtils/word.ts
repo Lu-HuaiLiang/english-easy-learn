@@ -32,8 +32,6 @@ export function useStorageWord() {
     })();
   }, []);
 
-  console.log('UnKnownWordList', UnKnownWordList);
-
   const setState1 = (arr: string[]) => {
     console.log(arr);
     if (process.env.PLASMO_PUBLIC_USER_EMAIL) {
