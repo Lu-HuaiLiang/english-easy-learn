@@ -113,8 +113,7 @@ const Comp = () => {
             position: 'fixed',
             zIndex: '9999',
             height: '24px',
-            width: '177px',
-            background: 'rgb(239, 239, 239)',
+            background: 'buttonface',
             ...getFixedPositionByRightBottomPoint(177, 25, targetRect),
           }}
         >
