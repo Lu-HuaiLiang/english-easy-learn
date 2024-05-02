@@ -24,12 +24,8 @@ export function AddWordBookButton(props: {
       }}
       onClick={() => {
         if (isAdd) {
-          updateUnknownWordByEmail(
-            UnKnownWordList.filter((w) => w !== selectedText),
-          );
           event.emit('delete_unknown', selectedText);
         } else {
-          updateUnknownWordByEmail(UnKnownWordList.concat(selectedText));
           event.emit('add_unknown', selectedText);
         }
       }}

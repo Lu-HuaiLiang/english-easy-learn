@@ -34,22 +34,6 @@ export const getInlineAnchor: PlasmoGetInlineAnchor = () => document.body;
 
 export const getShadowHostId = () => 'plasmo-inline-example-unique-id';
 
-// function useGetUnKnownWordList(): any {
-//   const [UnKnownWordList, setUnknownWordList] = useState([]);
-//   useEffect(() => {
-//     (async () => {
-//       const resp = await sendToBackground({
-//         name: 'searchUnknownWordByEmail',
-//         body: {
-//           email: process.env.PLASMO_PUBLIC_USER_EMAIL,
-//         },
-//       });
-//       resp.message && setUnknownWordList(resp.message);
-//     })();
-//   }, []);
-//   return [UnKnownWordList, setUnknownWordList];
-// }
-
 function AudioButton(props: any) {
   const { selectedText, type } = props;
   const { audioRef, playStatus } = useAudioState();
@@ -129,8 +113,9 @@ const Comp = () => {
             position: 'fixed',
             zIndex: '9999',
             height: '24px',
+            width: '177px',
             background: 'rgb(239, 239, 239)',
-            ...getFixedPositionByRightBottomPoint(173, 25, targetRect),
+            ...getFixedPositionByRightBottomPoint(177, 25, targetRect),
           }}
         >
           <AudioButton selectedText={selectedText} type="UK" />

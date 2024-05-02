@@ -217,7 +217,7 @@ function useGetGoogleTranslation(
     );
   }
   useEffect(() => {
-    if (!selectedText || openDisplayFrom !== OpenDisplayFrom.FloatBtn) {
+    if (!selectedText) {
       setTrainslation('');
       return;
     }

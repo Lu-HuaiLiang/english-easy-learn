@@ -45,6 +45,10 @@ const RecommendList = [
     link: 'https://space.bilibili.com/365212208',
   },
   {
+    name: '🔗 Albert英语研习社新闻稿｜微信',
+    link: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzI3ODM3MjQ5MA==&action=getalbum&album_id=1397694509848559620&subscene=126',
+  },
+  {
     name: '🔗 邵艾伦Alan｜bilibili',
     link: 'https://space.bilibili.com/4029133',
   },
@@ -63,6 +67,8 @@ function IndexPopup() {
   const [checked, setChecked] = useState(true);
   const activeTabURL = useRef('');
   const [hasCopy, setHasCopy] = useState(false);
+  const [hasDelete, setHasDelete] = useState(false);
+  const [hasLockDelete, setHasLockDelete] = useState(true);
 
   useEffect(() => {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -168,7 +174,7 @@ function IndexPopup() {
         onClick={() => {
           // UnKnownWordList
           navigator.clipboard
-            .writeText(UnKnownWordList?.join(',') ?? '')
+            .writeText(UnKnownWordList?.join('\u000A') ?? '')
             .then(() => {
               console.log('Text copied to clipboard');
             })
@@ -179,6 +185,53 @@ function IndexPopup() {
         }}
       >
         复制生词本的所有单词 {hasCopy ? '🟢' : '⚪️'}
+      </div>
+
+      <div
+        style={{
+          fontSize: '13px',
+          marginTop: '5px',
+          marginBottom: '5px',
+          width: 'fit-content',
+          borderBottom: '1px dotted #00a792',
+          cursor: 'pointer',
+        }}
+        onClick={() => {
+          chrome.tabs.create({ url: 'options.html' });
+        }}
+      >
+        单词导入生词本
+      </div>
+
+      <div
+        style={{
+          fontSize: '13px',
+          marginTop: '5px',
+          marginBottom: '10px',
+          // width: 'fit-content',
+          borderBottom: '1px dotted #00a792',
+          cursor: 'pointer',
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}
+      >
+        <div
+          onClick={() => {
+            if (hasLockDelete) {
+              return;
+            }
+            setHasDelete(true);
+          }}
+        >
+          清空生词本 {!hasLockDelete ? (hasDelete ? '🟢' : '⚪️') : ''}
+        </div>
+        <div
+          onClick={() => {
+            setHasLockDelete((a) => !a);
+          }}
+        >
+          {hasLockDelete ? '开锁🔐' : '锁开🔓'}
+        </div>
       </div>
       <div
         style={{
