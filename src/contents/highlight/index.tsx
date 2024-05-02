@@ -9,7 +9,6 @@ import {
 import { useFloatButtonState } from './hook/useFloatButtonState';
 import { useJudgeIsTrigger } from '~contents/shared/hooks/JudgeIsTrigger';
 import { OpenDisplayFrom } from './utils/type';
-import { sendToBackground } from '@plasmohq/messaging';
 import { useBan } from '~contents/shared/hooks/useBan';
 import {
   AudioPlayStatus,
@@ -17,7 +16,7 @@ import {
 } from '~contents/shared/hooks/useAudioState';
 import { ErrorBoundary } from '~contents/shared/components/ErrorBoundary';
 import { useHighlight } from './hook/useHighlight';
-import { useStorageWord } from '~contents/shared/utils/storageUtils/word';
+import { useGetUnKnownWordList } from '~contents/shared/utils/storageUtils/word';
 
 export const config: PlasmoCSConfig = {
   matches: ['<all_urls>'],
@@ -76,7 +75,7 @@ const Comp = () => {
   const [openDisplayFrom, setOpenDisplayFrom] = useState(OpenDisplayFrom.Close);
   const [targetRect, setTargetRect] = useState<DOMRect | undefined>();
   // const [UnKnownWordList, setUnknownWordList] = useGetUnKnownWordList();
-  const [UnKnownWordList, setUnknownWordList] = useStorageWord();
+  const [UnKnownWordList, setUnknownWordList] = useGetUnKnownWordList();
   const { saveTrigger, isTrigger } = useJudgeIsTrigger();
   const [floatButtonVisible, setFloatButtonVisible] = useState(false);
   const leaveHighlightTimerRef = useRef<ReturnType<typeof setTimeout>>();

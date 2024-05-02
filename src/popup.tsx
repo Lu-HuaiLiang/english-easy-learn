@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { storage } from '~contents/shared/utils/storageUtils';
 import { useStorage } from '@plasmohq/storage/hook';
-import { sendToBackground } from '@plasmohq/messaging';
-import { link } from 'fs';
-import { useStorageWord } from '~contents/shared/utils/storageUtils/word';
+import { useGetUnKnownWordList } from '~contents/shared/utils/storageUtils/word';
 
 const extractOrigin = (url: string): string => {
   const parser = new URL(url);
@@ -63,7 +61,7 @@ function IndexPopup() {
     },
     (v) => (v === undefined ? [] : v),
   );
-  const [UnKnownWordList, setUnknownWordList] = useStorageWord();
+  const [UnKnownWordList, setUnknownWordList] = useGetUnKnownWordList();
   const [checked, setChecked] = useState(true);
   const activeTabURL = useRef('');
   const [hasCopy, setHasCopy] = useState(false);

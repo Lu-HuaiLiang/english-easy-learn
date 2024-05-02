@@ -9,6 +9,7 @@ import {
   AudioPlayStatus,
   useAudioState,
 } from '~contents/shared/hooks/useAudioState';
+import { GetWordDetail } from '~contents/shared/utils/storageUtils/word';
 
 enum UseWhichDisplay {
   WordDetail,
@@ -190,14 +191,8 @@ function useGetDetail(props: {
     const containerRef = document.getElementById('word-display-container');
     containerRef?.scrollTo(0, 0);
     (async () => {
-      // const o = await stora
-      const resp = await sendToBackground({
-        name: 'searchWordDetailInfo',
-        body: {
-          input: selectedText,
-        },
-      });
-      setDetail(resp.message || []);
+      const resp = await GetWordDetail(selectedText);
+      setDetail(resp || []);
     })();
   }, [selectedText, openDisplayFrom]);
 

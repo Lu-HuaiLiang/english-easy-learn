@@ -12,26 +12,45 @@ const updateUnknownWordByEmail = (words: string[]) =>
     },
   });
 
-export function useStorageWord() {
-  const [UnKnownWordList, setUnknownWordList] = useState<string[]>([]);
+const searchUnknownWordByEmail = async () => {
+  const resp = await sendToBackground({
+    name: 'searchUnknownWordByEmail',
+    body: {
+      email: process.env.PLASMO_PUBLIC_USER_EMAIL,
+    },
+  });
+  return resp.message;
+};
 
+export async function GetWordDetail(selectedText: string) {
+  const wo = (await storage.get('word')) || {};
+  if (wo[selectedText]) {
+    return wo[selectedText];
+  }
+  const resp = await sendToBackground({
+    name: 'searchWordDetailInfo',
+    body: {
+      input: selectedText,
+    },
+  });
+  wo[selectedText] = resp.message;
+  storage.set('word', wo);
+  return resp.message;
+}
+
+export function useGetUnKnownWordList() {
+  const [UnKnownWordList, setUnknownWordList] = useState<string[]>([]);
   useEffect(() => {
     (async () => {
       if (process.env.PLASMO_PUBLIC_USER_EMAIL) {
-        const resp = await sendToBackground({
-          name: 'searchUnknownWordByEmail',
-          body: {
-            email: process.env.PLASMO_PUBLIC_USER_EMAIL,
-          },
-        });
-        resp.message && setUnknownWordList(resp.message);
+        const resp = await searchUnknownWordByEmail();
+        resp && setUnknownWordList(resp);
       } else {
         const resp = (await storage.get('UnKnownWordList')) as [];
         resp && setUnknownWordList(resp || []);
       }
     })();
   }, []);
-
   const setState1 = (arr: string[]) => {
     if (process.env.PLASMO_PUBLIC_USER_EMAIL) {
       updateUnknownWordByEmail(arr);
@@ -40,7 +59,5 @@ export function useStorageWord() {
     }
     setUnknownWordList(arr);
   };
-
-
   return [UnKnownWordList, setState1];
 }

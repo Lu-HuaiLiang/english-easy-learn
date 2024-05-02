@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import { allWords } from '~contents/shared/const/word';
-// import { allWords } from '~contents/shared/const/word';
-import { useStorageWord } from '~contents/shared/utils/storageUtils/word';
+import { useGetUnKnownWordList } from '~contents/shared/utils/storageUtils/word';
 
 const DisplayWordItem = (props) => {
   const { words } = props;
@@ -44,7 +42,7 @@ const forLowerCase = (text) => {
 
 function IndexOptions() {
   const [data, setData] = useState('');
-  const [UnKnownWordList, setUnknownWordList] = useStorageWord();
+  const [UnKnownWordList, setUnknownWordList] = useGetUnKnownWordList();
   const [sucessWords, setSucessWords] = useState([]);
   const [failWords, setFailWords] = useState([]);
   const [hasFinish, setHasFinish] = useState(false);
@@ -63,7 +61,6 @@ function IndexOptions() {
     >
       <div
         style={{
-          // fontFamily: 'Avenir Next',
           fontSize: '18px',
           fontWeight: '10000',
           marginBottom: '8px',
