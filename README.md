@@ -22,6 +22,9 @@
 5. 🚫 支持黑名单模式，对于特定网站，不想使用插件功能，可以直接禁用！
 
 ![image](https://github.com/Lu-HuaiLiang/english-search/assets/49161826/882d450b-d2b2-4cf9-adb6-fe92784f43a1)
+![image](https://github.com/Lu-HuaiLiang/english-search/assets/49161826/0491959e-3f03-4c35-a41a-50e9b7349293)
+![image](https://github.com/Lu-HuaiLiang/english-search/assets/49161826/519ed1ab-8b1e-4aad-9fcb-cfcc546d961f)
+
 
 > 🚫 生词本不支持（联网），只支持本地存储！
 > 原因：作为开源项目，需要租赁服务器，校验登陆信息，以及维护生词本服务，花销很大。
