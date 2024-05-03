@@ -1,6 +1,6 @@
 import type { PlasmoCSConfig, PlasmoGetInlineAnchor } from 'plasmo';
 import cssText from 'data-text:./index.css';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Display } from '~contents/highlight/components/Display';
 import {
   getFixedPositionByRightBottomPoint,

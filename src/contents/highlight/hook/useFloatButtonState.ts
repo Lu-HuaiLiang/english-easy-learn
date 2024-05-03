@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { OpenDisplayFrom } from '../utils/type';
 
 export function useFloatButtonState(props: any) {
