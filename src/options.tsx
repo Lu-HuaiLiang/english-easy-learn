@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { allWords } from '~contents/shared/const/word';
 import { useGetUnKnownWordList } from '~contents/shared/utils/storageUtils/word';
 
 const DisplayWordItem = (props) => {
@@ -74,9 +75,6 @@ function IndexOptions() {
         <div>{hasFinish ? '🟢' : '⚪️'} 生词本｜导入</div>
         <button
           onClick={async () => {
-            const allWords = (await import('~contents/shared/const/word'))
-              .allWords;
-            console.log(allWords);
             const words = data
               .split('\u000A')
               .filter(Boolean)

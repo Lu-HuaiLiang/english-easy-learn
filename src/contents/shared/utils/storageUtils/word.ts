@@ -33,8 +33,10 @@ export async function GetWordDetail(selectedText: string) {
       input: selectedText,
     },
   });
-  wo[selectedText] = resp.message;
-  storage.set('word', wo);
+  if (Array.isArray(resp.message) && resp.message.length > 0) {
+    wo[selectedText] = resp.message;
+    storage.set('word', wo);
+  }
   return resp.message;
 }
 
