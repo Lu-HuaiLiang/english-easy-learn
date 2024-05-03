@@ -8,7 +8,13 @@
 ### 零、单词数据来源
 来源于 [youdao-dictionary-23w6k](https://github.com/Lu-HuaiLiang/youdao-dictionary-23w6k)
 
-### 一、直接下载使用｜Quick Use
+### 一、使用指南｜Quick Use
+
+生产环境下，在根目录下，执行以下命令，就可以得到一个新生成的文件夹build了。里面有个文件夹`chrome-mv3-dev`，就是我们要的产物。
+```sh
+npm i
+npm run build
+```
 
 如何安装插件？先打开开发者模式，然后点击加载已解压的扩展程序即可!!!
 
