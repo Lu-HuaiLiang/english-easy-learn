@@ -27,6 +27,7 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
     typeof req.body.input !== 'string' ||
     input.length > 60
   ) {
+    console.log('length', req.body.input.length);
     res.send({
       message: [],
     });
@@ -35,6 +36,7 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
   // 单词不在单词表里面就不要去查找了！
   const wrong_word = !allWords.includes(req.body.input.toLowerCase());
   if (wrong_word) {
+    console.log('wrong_word', req.body.input, wrong_word);
     res.send({
       message: [],
     });
