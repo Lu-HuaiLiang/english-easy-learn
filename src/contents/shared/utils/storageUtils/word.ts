@@ -1,6 +1,5 @@
-import { useStorage } from '@plasmohq/storage/hook';
 import { storage } from '.';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { sendToBackground } from '@plasmohq/messaging';
 
 const updateUnknownWordByEmail = (words: string[]) =>

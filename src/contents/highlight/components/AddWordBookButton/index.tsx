@@ -1,14 +1,4 @@
-import { sendToBackground } from '@plasmohq/messaging';
 import { event } from '~contents/shared/utils/event';
-
-const updateUnknownWordByEmail = (words: string[]) =>
-  sendToBackground({
-    name: 'updateUnknownWordByEmail',
-    body: {
-      email: process.env.PLASMO_PUBLIC_USER_EMAIL,
-      wordJson: JSON.stringify(words),
-    },
-  });
 
 export function AddWordBookButton(props: {
   selectedText: string;
