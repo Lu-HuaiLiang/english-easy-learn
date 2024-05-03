@@ -44,7 +44,10 @@ export function useGetUnKnownWordList() {
   const [UnKnownWordList, setUnknownWordList] = useState<string[]>([]);
   useEffect(() => {
     (async () => {
-      if (process.env.PLASMO_PUBLIC_USER_EMAIL) {
+      if (
+        process.env.PLASMO_PUBLIC_USER_EMAIL &&
+        process.env.PLASMO_PUBLIC_HOST
+      ) {
         const resp = await searchUnknownWordByEmail();
         resp && setUnknownWordList(resp);
       } else {
@@ -54,7 +57,10 @@ export function useGetUnKnownWordList() {
     })();
   }, []);
   const setState1 = (arr: string[]) => {
-    if (process.env.PLASMO_PUBLIC_USER_EMAIL) {
+    if (
+      process.env.PLASMO_PUBLIC_USER_EMAIL &&
+      process.env.PLASMO_PUBLIC_HOST
+    ) {
       updateUnknownWordByEmail(arr);
     } else {
       storage.set('UnKnownWordList', arr);

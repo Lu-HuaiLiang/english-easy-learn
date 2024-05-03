@@ -42,7 +42,7 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
     });
     return;
   }
-  if (process.env.PLASMO_PUBLIC_USER_EMAIL) {
+  if (process.env.PLASMO_PUBLIC_USER_EMAIL && process.env.PLASMO_PUBLIC_HOST) {
     const resp = await searchWordDetailInfoByOwnServer(input);
     res.send({
       message: resp,
