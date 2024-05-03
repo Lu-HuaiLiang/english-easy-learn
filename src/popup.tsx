@@ -181,7 +181,7 @@ function IndexPopup() {
           setHasCopy(true);
         }}
       >
-        复制生词本的所有单词 {hasCopy ? '🟢' : '⚪️'}
+        复制生词本的所有生词 {hasCopy ? '🟢' : '⚪️'}
       </div>
 
       <div
