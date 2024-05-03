@@ -23,6 +23,7 @@ const searchUnknownWordByEmail = async () => {
 
 export async function GetWordDetail(selectedText: string) {
   const wo = (await storage.get('word')) || {};
+  // console.log('wo[selectedText]', wo, wo[selectedText]);
   if (wo[selectedText]) {
     return wo[selectedText];
   }
@@ -33,6 +34,7 @@ export async function GetWordDetail(selectedText: string) {
     },
   });
   if (Array.isArray(resp.message) && resp.message.length > 0) {
+    // console.log('resp.message', resp.message);
     wo[selectedText] = resp.message;
     storage.set('word', wo);
   }

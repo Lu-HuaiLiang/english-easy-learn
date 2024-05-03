@@ -169,15 +169,7 @@ function IndexPopup() {
           cursor: 'pointer',
         }}
         onClick={() => {
-          // UnKnownWordList
-          navigator.clipboard
-            .writeText(UnKnownWordList?.join('\u000A') ?? '')
-            .then(() => {
-              console.log('Text copied to clipboard');
-            })
-            .catch((err) => {
-              console.error('Error in copying text: ', err);
-            });
+          navigator.clipboard.writeText(UnKnownWordList?.join('\u000A') ?? '');
           setHasCopy(true);
         }}
       >

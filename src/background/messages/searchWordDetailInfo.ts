@@ -27,28 +27,28 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
     typeof req.body.input !== 'string' ||
     input.length > 60
   ) {
-    console.log('length', req.body.input.length);
     res.send({
       message: [],
     });
     return;
   }
   // 单词不在单词表里面就不要去查找了！
-  const wrong_word = !allWords.includes(req.body.input.toLowerCase());
-  if (wrong_word) {
-    console.log('wrong_word', req.body.input, wrong_word);
+  const find = allWords.find(
+    (w) => w.toLowerCase() === req.body.input.toLowerCase(),
+  );
+  if (!find) {
     res.send({
       message: [],
     });
     return;
   }
   if (process.env.PLASMO_PUBLIC_USER_EMAIL && process.env.PLASMO_PUBLIC_HOST) {
-    const resp = await searchWordDetailInfoByOwnServer(input);
+    const resp = await searchWordDetailInfoByOwnServer(find);
     res.send({
       message: resp,
     });
   } else {
-    const resp = await searchWordDetailInfoByQiNiu(input);
+    const resp = await searchWordDetailInfoByQiNiu(find);
     res.send({
       message: resp?.['error'] ? [] : [resp],
     });
