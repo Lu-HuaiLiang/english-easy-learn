@@ -10,7 +10,7 @@
 
 ### 一、使用指南｜Quick Use
 
-直接下载这个库，即可开箱使用 [english-easy-learn-prod](https://github.com/Lu-HuaiLiang/english-easy-learn-prod/tree/main) 
+直接下载这个库 [english-easy-learn-prod](https://github.com/Lu-HuaiLiang/english-easy-learn-prod/tree/main) ，即可开箱📦使用。
 
 ### 二、主要能力｜Highlighted Features
 
