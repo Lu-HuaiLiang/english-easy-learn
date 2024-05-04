@@ -43,6 +43,10 @@ npm run build
 ![image](https://github.com/Lu-HuaiLiang/english-search/assets/49161826/0491959e-3f03-4c35-a41a-50e9b7349293)
 ![image](https://github.com/Lu-HuaiLiang/english-search/assets/49161826/519ed1ab-8b1e-4aad-9fcb-cfcc546d961f)
 
+## 未来规划
+迭代频率不会特别高，但有 P0 bug 肯定会修复
+-[] floatBtn的相对偏移位置，从划词的区域，变为鼠标手区域。
+
 ## 本地调试
 框架采用的是 [plasmo](https://github.com/PlasmoHQ/plasmo)
 
