@@ -52,7 +52,9 @@ npm i
 npm run build
 ```
 
-### 下面是我的个人微信，如果你对徒步、对代码、对语言学习，很感兴趣，欢迎👏一起学习交流。共勉！
+## 学习交流
+下面是我的个人微信，如果你对徒步、对编程、对语言学习，很感兴趣，欢迎👏一起学习交流。共勉！
+
 ![image](https://github.com/Lu-HuaiLiang/english-easy-learn/assets/49161826/f9e9cbed-d0ef-444c-acf6-37fbecfa60ef)
 
 
