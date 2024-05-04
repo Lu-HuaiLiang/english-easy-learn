@@ -1,29 +1,16 @@
 # 🍊 english-easy-learn（Chrome插件）
-👏 欢迎使用 [english-easy-learn](https://github.com/Lu-HuaiLiang/english-easy-learn-chrome-extension)，开发 [english-easy-learn](https://github.com/Lu-HuaiLiang/english-easy-learn-chrome-extension) 的最初目的是为了辅助我个人的英语学习。在最初的版本，[english-easy-learn](https://github.com/Lu-HuaiLiang/english-easy-learn-chrome-extension) 只有查单词和翻译的功能，后面为了改善我自己的发音，和更好的识别生词，我加入了朗读功能和生词本功能。这些特性对于我在记忆单词、理解单词、习惯英语发音方面，有很好的帮助。独乐乐不如众乐乐，所以我决定把它开源了，希望也对于你有所帮助。
+👏 欢迎使用 [english-easy-learn](https://github.com/Lu-HuaiLiang/english-easy-learn-chrome-extension)，开发 [english-easy-learn](https://github.com/Lu-HuaiLiang/english-easy-learn-chrome-extension) 的最初目的是为了辅助我个人的英语学习。在最初的产品版本，[english-easy-learn](https://github.com/Lu-HuaiLiang/english-easy-learn-chrome-extension) 只有查单词和翻译的功能，后面为了改善我自己的发音，和更好的识别生词，我加入了朗读功能和生词本功能。这些特性对于我在记忆单词、理解单词、习惯英语发音方面，有很好的帮助。独乐乐不如众乐乐，所以我决定把它开源了，希望也对于你有所帮助。
+
+如果遇到什么问题或者有什么新想法想法💡，欢迎给我提[issue](https://github.com/Lu-HuaiLiang/english-easy-learn-chrome-extension/issues)。如果你也喜欢 [english-easy-learn](https://github.com/Lu-HuaiLiang/english-easy-learn-chrome-extension)，也记得帮我点个Star🌟，感谢！
 
 ![image](https://github.com/Lu-HuaiLiang/english-search/assets/49161826/9881ef76-50ef-4c99-80b7-c6dc74b3713e)
-
-如果遇到什么问题或者有什么新想法想法🌟，欢迎给我提[issue](https://github.com/Lu-HuaiLiang/english-easy-learn-chrome-extension/issues)。如果你也喜欢 [english-easy-learn](https://github.com/Lu-HuaiLiang/english-easy-learn-chrome-extension)，也记得帮我点个Star🌟，感谢！
 
 ### 零、单词数据来源
 来源于 [youdao-dictionary-23w6k](https://github.com/Lu-HuaiLiang/youdao-dictionary-23w6k)
 
 ### 一、使用指南｜Quick Use
 
-生产环境下，在根目录下，执行以下命令，就可以得到一个新生成的文件夹build了。里面有个文件夹`chrome-mv3-dev`，就是我们要的产物。
-```sh
-npm i
-npm run build
-```
-
-如何安装插件？先打开开发者模式，然后点击加载已解压的扩展程序即可!!!
-
-![image](https://github.com/Lu-HuaiLiang/english-search/assets/49161826/5c2ec243-8ac1-4e79-9f52-16c5b8486a28)
-
-如何在浏览中找到我们的插件？可以直接在右上角上这样勾选。
-
-![image](https://github.com/Lu-HuaiLiang/english-search/assets/49161826/b97118b6-3b60-4cad-8d89-0af7b843490d)
-
+直接下载这个库，即可开箱使用 [english-easy-learn-prod](https://github.com/Lu-HuaiLiang/english-easy-learn-prod/tree/main) 
 
 ### 二、主要能力｜Highlighted Features
 
@@ -51,10 +38,18 @@ npm run build
 ## 本地调试
 框架采用的是 [plasmo](https://github.com/PlasmoHQ/plasmo)
 
-可以用以下命令，在项目的根路径调试!!!
+开发环境下调试，可以用以下命令，在项目的根路径调试!!!
 ```sh
 npm i
 npm run dev
+```
+
+生产环境下调试，在根目录下，执行以下命令，就可以得到一个新生成的文件夹build了。
+
+里面有个文件夹`chrome-mv3-dev`，就是我们要的产物了。
+```sh
+npm i
+npm run build
 ```
 
 
