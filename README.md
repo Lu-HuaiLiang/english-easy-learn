@@ -45,7 +45,8 @@ npm run build
 
 ## 未来规划
 迭代频率不会特别高，但有 P0 bug 肯定会修复
--[] floatBtn的相对偏移位置，从划词的区域，变为鼠标手区域。
+- [ ] floatBtn的相对偏移位置，从划词的区域，变为鼠标手区域。
+- [ ] 尝试加上 eslint。
 
 ## 本地调试
 框架采用的是 [plasmo](https://github.com/PlasmoHQ/plasmo)
