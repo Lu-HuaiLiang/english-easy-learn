@@ -36,6 +36,7 @@
 - [ ] 尝试加上 eslint。
 - [ ] popup弹窗加上 github logo
 - [ ] 支持PDF网页划词
+- [ ] 增加埋点，收集没有收录的单词，例如：plummeted。
 
 ## 本地调试
 框架采用的是 [plasmo](https://github.com/PlasmoHQ/plasmo)
