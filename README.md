@@ -35,6 +35,7 @@
 - [ ] floatBtn的相对偏移位置，从划词的区域，变为鼠标手区域。
 - [ ] 尝试加上 eslint。
 - [ ] popup弹窗加上 github logo
+- [ ] 支持PDF网页划词
 
 ## 本地调试
 框架采用的是 [plasmo](https://github.com/PlasmoHQ/plasmo)
