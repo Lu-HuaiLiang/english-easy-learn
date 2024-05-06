@@ -90,7 +90,7 @@ function IndexPopup() {
         flexDirection: 'column',
         padding: '0px 10px',
         paddingBottom: '5px',
-        width: '200px',
+        width: '220px',
         borderRadius: '5px',
       }}
     >
@@ -162,8 +162,19 @@ function IndexPopup() {
       </div>
       <div
         style={{
+          fontWeight: '700',
           fontSize: '13px',
-          marginTop: '25px',
+          marginTop: '20px',
+
+          fontFamily: 'Avenir Next',
+        }}
+      >
+        生词管理｜Unknown Management
+      </div>
+      <div
+        style={{
+          fontSize: '13px',
+          marginTop: '10px',
           width: 'fit-content',
           borderBottom: '1px dotted #00a792',
           cursor: 'pointer',
@@ -175,7 +186,6 @@ function IndexPopup() {
       >
         复制生词本的所有生词 {hasCopy ? '🟢' : '⚪️'}
       </div>
-
       <div
         style={{
           fontSize: '13px',
@@ -223,13 +233,14 @@ function IndexPopup() {
       </div>
       <div
         style={{
+          fontWeight: '700',
           fontSize: '13px',
-          marginTop: '8px',
+          marginTop: '13px',
           marginBottom: '10px',
           fontFamily: 'Avenir Next',
         }}
       >
-        学习链接分享
+        学习链接｜Study LinK
       </div>
       {RecommendList?.map((i) => {
         return (
