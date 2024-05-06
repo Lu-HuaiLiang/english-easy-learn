@@ -3,7 +3,7 @@
 
 如果遇到什么问题或者有什么新想法想法💡，欢迎给我提[issue](https://github.com/Lu-HuaiLiang/english-easy-learn-chrome-extension/issues)。如果你也喜欢 [english-easy-learn](https://github.com/Lu-HuaiLiang/english-easy-learn-chrome-extension)，也记得帮我点个Star🌟，感谢！
 
-![image](https://github.com/Lu-HuaiLiang/english-search/assets/49161826/9881ef76-50ef-4c99-80b7-c6dc74b3713e)
+![image](https://github.com/Lu-HuaiLiang/english-easy-learn/assets/49161826/80ae65a3-dad4-423a-97f1-68af07005414)
 
 ### 零、单词数据来源
 来源于 [youdao-dictionary-23w6k](https://github.com/Lu-HuaiLiang/youdao-dictionary-23w6k)
