@@ -236267,7 +236267,6 @@ function IndexOptions() {
         }}
       >
         <div>现存生词数量 {UnKnownWordList.length}</div>
-        <div>已传入合法单词数量 0</div>
       </div>
       {hasFinish && (
         <div>
