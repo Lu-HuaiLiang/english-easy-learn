@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { storage } from '../utils/storageUtils';
 
-export function useBan() {
-  const [blacklistWeb, setBlacklistWeb] = useState([]);
+export function usePass() {
+  const [whitelistWeb, setWhitelistWeb] = useState([]);
   useEffect(() => {
     (async () => {
-      const blacklist = (await storage.get('blacklistWeb')) as string[];
-      setBlacklistWeb(blacklist || []);
+      const whitelist = (await storage.get('whitelistWeb')) as string[];
+      setWhitelistWeb(whitelist || []);
     })();
   }, []);
-  const isBan = blacklistWeb.some((l) => l === window.origin);
-  return isBan;
+  const isPass = whitelistWeb.some((l) => l === window.origin);
+  return isPass;
 }

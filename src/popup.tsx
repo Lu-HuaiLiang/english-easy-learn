@@ -56,13 +56,13 @@ function IndexPopup() {
   const [currentWebsite, setCurrentWebsite] = useState<string>('');
   const [get, set] = useStorage(
     {
-      key: 'blacklistWeb',
+      key: 'whitelistWeb',
       instance: storage,
     },
     (v) => (v === undefined ? [] : v),
   );
   const [UnKnownWordList, setUnknownWordList] = useGetUnKnownWordList();
-  const [checked, setChecked] = useState(true);
+  const [checked, setChecked] = useState(false);
   const activeTabURL = useRef('');
   const [hasCopy, setHasCopy] = useState(false);
   const [hasDelete, setHasDelete] = useState(false);
@@ -77,8 +77,8 @@ function IndexPopup() {
       setCurrentWebsite(website);
       setChecked(
         get && Array.isArray(get)
-          ? !get.some((l) => activeTabURL.current === l)
-          : true,
+          ? get.some((l) => activeTabURL.current === l)
+          : false,
       );
     });
   }, [get]);
@@ -109,6 +109,24 @@ function IndexPopup() {
         >
           v1.0.0
         </span>
+        <span
+          style={{
+            fontFamily: 'Avenir Next',
+            fontSize: '12px',
+            cursor: 'pointer',
+            fontWeight: '700',
+            marginLeft: '28px',
+            marginBottom: '8px',
+            textDecorationLine: 'underline',
+          }}
+          onClick={() => {
+            chrome.tabs.create({
+              url: 'https://github.com/Lu-HuaiLiang/english-easy-learn',
+            });
+          }}
+        >
+          github
+        </span>
       </h1>
       <div
         style={{
@@ -133,11 +151,11 @@ function IndexPopup() {
               setChecked(e.target.checked);
               if (e.target.checked) {
                 set((get) => {
-                  return get.filter((a) => a !== activeTabURL.current);
+                  return Array.from(new Set(get.concat(activeTabURL.current)));
                 });
               } else {
                 set((get) => {
-                  return Array.from(new Set(get.concat(activeTabURL.current)));
+                  return get.filter((a) => a !== activeTabURL.current);
                 });
               }
             }}

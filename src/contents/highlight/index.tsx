@@ -9,7 +9,7 @@ import {
 import { useFloatButtonState } from './hook/useFloatButtonState';
 import { useJudgeIsTrigger } from '~contents/shared/hooks/JudgeIsTrigger';
 import { OpenDisplayFrom } from './utils/type';
-import { useBan } from '~contents/shared/hooks/useBan';
+import { usePass } from '~contents/shared/hooks/useBan';
 import {
   AudioPlayStatus,
   useAudioState,
@@ -163,7 +163,7 @@ const Comp = () => {
 };
 
 const PlasmoInline = () => {
-  const isBan = useBan();
-  return <ErrorBoundary>{isBan ? <></> : <Comp />}</ErrorBoundary>;
+  const isPass = usePass();
+  return <ErrorBoundary>{isPass ? <Comp /> : <></>}</ErrorBoundary>;
 };
 export default PlasmoInline;
