@@ -158,6 +158,13 @@ function IndexPopup() {
                   return get.filter((a) => a !== activeTabURL.current);
                 });
               }
+              chrome.tabs.query(
+                { active: true, currentWindow: true },
+                function (tabs) {
+                  // Reload the active tab
+                  chrome.tabs.reload(tabs[0].id);
+                },
+              );
             }}
             style={{ cursor: 'pointer' }}
             type="checkbox"
