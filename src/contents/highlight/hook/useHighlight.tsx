@@ -45,15 +45,40 @@ export function useHighlight(props: any) {
   };
 
   useEffect(() => {
+    const callback = (mutationsList, observer) => {
+      for (const mutation of mutationsList) {
+        if (mutation.type === 'childList') {
+          // console.log('A child node has been added or removed.');
+          handleHighlighter(UnKnownWordList);
+        } else if (mutation.type === 'attributes') {
+          // console.log(`The ${mutation.attributeName} attribute was modified.`);
+        }
+      }
+    };
+    const observer = new MutationObserver(callback);
+    const config = {
+      attributes: true, // 观察属性变化
+      childList: true, // 观察子节点的增减
+      subtree: true, // 观察后代节点
+    };
+    const targetNode = document.body; // 指定要观察的节点
+    observer.observe(targetNode, config);
+    return () => {
+      observer.disconnect();
+    };
+  }, [UnKnownWordList]);
+
+  useEffect(() => {
     if (deleteWordRef.current) {
       deleteHighlight(deleteWordRef.current);
       return;
     } else if (insertWordRef.current) {
       handleHighlighter([insertWordRef.current]);
       insertWordRef.current = '';
-    } else {
-      handleHighlighter(UnKnownWordList);
     }
+    // else {
+    //   handleHighlighter(UnKnownWordList);
+    // }
   }, [UnKnownWordList]);
 
   const handleHighlighter = async (words: string[]) => {
