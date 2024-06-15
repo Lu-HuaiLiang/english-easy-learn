@@ -7,7 +7,7 @@ const forLowerCase = (text) => {
 const dFSTraverse = (rootNodes, result = [] as any[]) => {
   const roots = Array.from(rootNodes) as any;
   const isSpecialElements = (el) =>
-    ['SCRIPT', 'STYLE', 'PRE', 'CODE'].includes(el.nodeName);
+    ['SCRIPT', 'STYLE', 'PRE', 'CODE', 'XMARK'].includes(el.nodeName);
   while (roots.length) {
     const root = roots.shift();
     // 跳过特殊节点 script style之类的

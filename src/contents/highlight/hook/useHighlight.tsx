@@ -3,6 +3,20 @@ import { event } from '~contents/shared/utils/event';
 import findTargetTextNode from '../utils/highlightUtils/findNode';
 import { OpenDisplayFrom } from '../utils/type';
 
+// this 这样写的原因：上下文保持：在某些情况下，函数可能需要在特定的上下文中执行（例如，当函数是某个对象的方法时）。使用 context 可以确保即使在回调中，函数也能在正确的上下文中执行。
+function throttle(func, limit) {
+  let inThrottle;
+  return function () {
+    const args = arguments;
+    const context = this;
+    if (!inThrottle) {
+      func.apply(context, args);
+      inThrottle = true;
+      setTimeout(() => (inThrottle = false), limit);
+    }
+  };
+}
+
 export function useHighlight(props: any) {
   const {
     UnKnownWordList,
@@ -45,16 +59,19 @@ export function useHighlight(props: any) {
   };
 
   useEffect(() => {
-    const callback = (mutationsList, observer) => {
-      for (const mutation of mutationsList) {
-        if (mutation.type === 'childList') {
-          // console.log('A child node has been added or removed.');
-          handleHighlighter(UnKnownWordList);
-        } else if (mutation.type === 'attributes') {
-          // console.log(`The ${mutation.attributeName} attribute was modified.`);
+    const callback = throttle((mutationsList, observer) => {
+      requestAnimationFrame(() => {
+        for (const mutation of mutationsList) {
+          // console.log(mutation.addedNodes);
+          if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+            // console.log('A child node has been added or removed.');
+            handleHighlighter(UnKnownWordList);
+          } else if (mutation.type === 'attributes') {
+            // console.log(`The ${mutation.attributeName} attribute was modified.`);
+          }
         }
-      }
-    };
+      });
+    }, 1000);
     const observer = new MutationObserver(callback);
     const config = {
       attributes: true, // 观察属性变化
