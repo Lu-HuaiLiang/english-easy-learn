@@ -58,30 +58,41 @@ export function useHighlight(props: any) {
     deleteWordRef.current = '';
   };
 
+  // useEffect(() => {
+  //   const handle = throttle(() => handleHighlighter(UnKnownWordList), 1000);
+  //   const observer = new MutationObserver((mutationsList) => {
+  //     requestAnimationFrame(() => {
+  //       for (const mutation of mutationsList) {
+  //         console.log(mutation);
+  //         if (mutation.addedNodes.length > 0) {
+  //           console.log('A child node has been added or removed.');
+  //           handle();
+  //         }
+  //       }
+  //     });
+  //   });
+  //   const targetNode = document.body; // 指定要观察的节点
+  //   observer.observe(targetNode, {
+  //     attributes: true, // 观察属性变化
+  //     childList: true, // 观察子节点的增减
+  //     subtree: true, // 观察后代节点
+  //   });
+  //   return () => {
+  //     observer.disconnect();
+  //   };
+  // });
+
   useEffect(() => {
-    const callback = throttle((mutationsList, observer) => {
-      requestAnimationFrame(() => {
-        for (const mutation of mutationsList) {
-          // console.log(mutation.addedNodes);
-          if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-            // console.log('A child node has been added or removed.');
-            handleHighlighter(UnKnownWordList);
-          } else if (mutation.type === 'attributes') {
-            // console.log(`The ${mutation.attributeName} attribute was modified.`);
-          }
-        }
-      });
-    }, 1000);
-    const observer = new MutationObserver(callback);
-    const config = {
-      attributes: true, // 观察属性变化
-      childList: true, // 观察子节点的增减
-      subtree: true, // 观察后代节点
+    const listen = function (request) {
+      if (request.url) {
+        console.log('url change');
+        handleHighlighter(UnKnownWordList);
+      }
     };
-    const targetNode = document.body; // 指定要观察的节点
-    observer.observe(targetNode, config);
+    handleHighlighter(UnKnownWordList);
+    chrome.runtime.onMessage.addListener(listen);
     return () => {
-      observer.disconnect();
+      chrome.runtime.onMessage.removeListener(listen);
     };
   }, [UnKnownWordList]);
 

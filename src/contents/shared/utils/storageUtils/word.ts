@@ -41,7 +41,7 @@ export async function GetWordDetail(selectedText: string) {
   return resp.message;
 }
 
-export function useGetUnKnownWordList() {
+export function useGetUnKnownWordList(): [string[], (arr: string[]) => void] {
   const [UnKnownWordList, setUnknownWordList] = useState<string[]>([]);
   useEffect(() => {
     (async () => {
