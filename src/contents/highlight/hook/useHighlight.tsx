@@ -58,8 +58,11 @@ export function useHighlight(props: any) {
     deleteWordRef.current = '';
   };
 
+  /**
+   * 这里是去处理虚拟列表的情况
+   */
   // useEffect(() => {
-  //   const handle = throttle(() => handleHighlighter(UnKnownWordList), 1000);
+  //    const handle = throttle(() => handleHighlighter(UnKnownWordList), 1000);
   //   const observer = new MutationObserver((mutationsList) => {
   //     requestAnimationFrame(() => {
   //       for (const mutation of mutationsList) {
@@ -83,16 +86,18 @@ export function useHighlight(props: any) {
   // });
 
   useEffect(() => {
-    const listen = function (request) {
+    const Highlight = function (request) {
       if (request.url) {
-        console.log('url change');
-        handleHighlighter(UnKnownWordList);
+        // console.log('url change');
+        // 这里需要等待页面完全稳定之后，再去做高亮
+        // 这里简单的利用了 setTimeout，但很难说有个点去说csr路由切换后，dom完成了构建
+        setTimeout(() => handleHighlighter(UnKnownWordList), 600);
       }
     };
     handleHighlighter(UnKnownWordList);
-    chrome.runtime.onMessage.addListener(listen);
+    chrome.runtime.onMessage.addListener(Highlight);
     return () => {
-      chrome.runtime.onMessage.removeListener(listen);
+      chrome.runtime.onMessage.removeListener(Highlight);
     };
   }, [UnKnownWordList]);
 
@@ -104,9 +109,6 @@ export function useHighlight(props: any) {
       handleHighlighter([insertWordRef.current]);
       insertWordRef.current = '';
     }
-    // else {
-    //   handleHighlighter(UnKnownWordList);
-    // }
   }, [UnKnownWordList]);
 
   const handleHighlighter = async (words: string[]) => {
