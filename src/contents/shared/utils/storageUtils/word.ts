@@ -1,24 +1,23 @@
 import { storage } from '.';
 import { useEffect, useState } from 'react';
 import { sendToBackground } from '@plasmohq/messaging';
+import supabase from '~contents/shared/supabase';
 
 const updateUnknownWordByEmail = (words: string[]) =>
-  sendToBackground({
-    name: 'updateUnknownWordByEmail',
-    body: {
-      email: process.env.PLASMO_PUBLIC_USER_EMAIL,
-      wordJson: JSON.stringify(words),
-    },
-  });
+  supabase
+    .from('user_unknown_word')
+    .update({ wordJson: JSON.stringify(words) })
+    .eq('email', process.env.PLASMO_PUBLIC_USER_EMAIL)
 
 const searchUnknownWordByEmail = async () => {
-  const resp = await sendToBackground({
-    name: 'searchUnknownWordByEmail',
-    body: {
-      email: process.env.PLASMO_PUBLIC_USER_EMAIL,
-    },
-  });
-  return resp.message;
+  let { data: user_unknown_word, error } = await supabase
+    .from('user_unknown_word')
+    .select('*')
+    .eq('email', process.env.PLASMO_PUBLIC_USER_EMAIL);
+  if (error) {
+    return [];
+  }
+  return JSON.parse(user_unknown_word?.[0].wordJson) || [];
 };
 
 export async function GetWordDetail(selectedText: string) {
@@ -47,7 +46,7 @@ export function useGetUnKnownWordList(): [string[], (arr: string[]) => void] {
     (async () => {
       if (
         process.env.PLASMO_PUBLIC_USER_EMAIL &&
-        process.env.PLASMO_PUBLIC_HOST
+        process.env.PLASMO_PUBLIC_SUPABASE_KEY
       ) {
         const resp = await searchUnknownWordByEmail();
         resp && setUnknownWordList(resp);
@@ -57,16 +56,17 @@ export function useGetUnKnownWordList(): [string[], (arr: string[]) => void] {
       }
     })();
   }, []);
-  const setState1 = (arr: string[]) => {
+  const setState1 = async (arr: string[]) => {
+    setUnknownWordList(arr);
     if (
       process.env.PLASMO_PUBLIC_USER_EMAIL &&
-      process.env.PLASMO_PUBLIC_HOST
+      process.env.PLASMO_PUBLIC_SUPABASE_KEY
     ) {
-      updateUnknownWordByEmail(arr);
+      // 这里我也不知道为啥一定要加 await 才行
+      await updateUnknownWordByEmail(arr);
     } else {
       storage.set('UnKnownWordList', arr);
     }
-    setUnknownWordList(arr);
   };
   return [UnKnownWordList, setState1];
 }

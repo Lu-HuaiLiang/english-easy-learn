@@ -12,6 +12,7 @@
   "dependencies": {
     "@plasmohq/messaging": "^0.6.2",
     "@plasmohq/storage": "^1.10.0",
+    "@supabase/supabase-js": "^2.44.3",
     "classnames": "^2.5.1",
     "configstore": "^2.0.0",
     "got": "^6.3.0",

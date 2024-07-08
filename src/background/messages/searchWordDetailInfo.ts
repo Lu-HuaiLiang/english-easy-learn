@@ -1,16 +1,6 @@
 import type { PlasmoMessaging } from '@plasmohq/messaging';
 import { allWords } from '~contents/shared/const/word';
 
-const searchWordDetailInfoByOwnServer = async (inputValue) =>
-  fetch(
-    `http://${process.env.PLASMO_PUBLIC_HOST}:3000/searchWordDetailInfo?word=${inputValue}`,
-  )
-    .then((res) => {
-      return res.json();
-    })
-    .then((res) => {
-      return res;
-    });
 const searchWordDetailInfoByQiNiu = async (inputValue) =>
   fetch(`http://static.haojian.fun/words/${inputValue}.json`)
     .then((res) => {
@@ -42,17 +32,10 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
     });
     return;
   }
-  if (process.env.PLASMO_PUBLIC_USER_EMAIL && process.env.PLASMO_PUBLIC_HOST) {
-    const resp = await searchWordDetailInfoByOwnServer(find);
-    res.send({
-      message: resp,
-    });
-  } else {
-    const resp = await searchWordDetailInfoByQiNiu(find);
-    res.send({
-      message: resp?.['error'] ? [] : [resp],
-    });
-  }
+  const resp = await searchWordDetailInfoByQiNiu(find);
+  res.send({
+    message: resp?.['error'] ? [] : [resp],
+  });
 };
 
 export default handler;
