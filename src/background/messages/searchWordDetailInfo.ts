@@ -1,5 +1,5 @@
 import type { PlasmoMessaging } from '@plasmohq/messaging';
-import { allWords } from '~contents/shared/const/word';
+// import { allWords } from '~contents/shared/const/word';
 
 const searchWordDetailInfoByQiNiu = async (inputValue) =>
   fetch(`http://static.haojian.fun/words/${inputValue}.json`)
@@ -10,7 +10,8 @@ const searchWordDetailInfoByQiNiu = async (inputValue) =>
       return res;
     });
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
-  const input = encodeURIComponent(req.body.input);
+  // 这里是因为 static.haojian.fun 的文件会有二次encodeURIComponent的情况。
+  const input = encodeURIComponent(encodeURIComponent(req.body.input));
   // 遍历了一下所有的单词长度最多60！
   if (
     !req.body.input ||
@@ -23,16 +24,16 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
     return;
   }
   // 单词不在单词表里面就不要去查找了！
-  const find = allWords.find(
-    (w) => w.toLowerCase() === req.body.input.toLowerCase(),
-  );
-  if (!find) {
-    res.send({
-      message: [],
-    });
-    return;
-  }
-  const resp = await searchWordDetailInfoByQiNiu(find);
+  // const find = allWords.find(
+  //   (w) => w.toLowerCase() === req.body.input.toLowerCase(),
+  // );
+  // if (!find) {
+  //   res.send({
+  //     message: [],
+  //   });
+  //   return;
+  // }
+  const resp = await searchWordDetailInfoByQiNiu(input);
   res.send({
     message: resp?.['error'] ? [] : [resp],
   });

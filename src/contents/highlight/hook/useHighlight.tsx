@@ -58,48 +58,42 @@ export function useHighlight(props: any) {
     deleteWordRef.current = '';
   };
 
-  /**
-   * 这里是去处理虚拟列表的情况
-   */
-  // useEffect(() => {
-  //    const handle = throttle(() => handleHighlighter(UnKnownWordList), 1000);
-  //   const observer = new MutationObserver((mutationsList) => {
-  //     requestAnimationFrame(() => {
-  //       for (const mutation of mutationsList) {
-  //         console.log(mutation);
-  //         if (mutation.addedNodes.length > 0) {
-  //           console.log('A child node has been added or removed.');
-  //           handle();
-  //         }
-  //       }
-  //     });
-  //   });
-  //   const targetNode = document.body; // 指定要观察的节点
-  //   observer.observe(targetNode, {
-  //     attributes: true, // 观察属性变化
-  //     childList: true, // 观察子节点的增减
-  //     subtree: true, // 观察后代节点
-  //   });
-  //   return () => {
-  //     observer.disconnect();
-  //   };
-  // });
-
   useEffect(() => {
-    const Highlight = function (request) {
-      if (request.url) {
-        // console.log('url change');
-        // 这里需要等待页面完全稳定之后，再去做高亮
-        // 这里简单的利用了 setTimeout，但很难说有个点去说csr路由切换后，dom完成了构建
-        setTimeout(() => handleHighlighter(UnKnownWordList), 600);
-      }
-    };
-    handleHighlighter(UnKnownWordList);
-    chrome.runtime.onMessage.addListener(Highlight);
-    return () => {
-      chrome.runtime.onMessage.removeListener(Highlight);
-    };
+    if (window.location.origin === 'https://bytedance.larkoffice.com') {
+      const handle = () => handleHighlighter(UnKnownWordList);
+      const observer = new MutationObserver(() => {
+        requestAnimationFrame(() => {
+          handle();
+        });
+      });
+      const targetNode = document.body; // 指定要观察的节点
+      observer.observe(targetNode, {
+        attributes: true, // 观察属性变化
+        childList: true, // 观察子节点的增减
+        subtree: true, // 观察后代节点
+      });
+      return () => {
+        observer.disconnect();
+      };
+    } else {
+      // CSR
+      const Highlight = function (request) {
+        if (request.url) {
+          // console.log('url change');
+          // 这里需要等待页面完全稳定之后，再去做高亮
+          // 这里简单的利用了 setTimeout，但很难说有个点去说csr路由切换后，dom完成了构建
+          setTimeout(() => handleHighlighter(UnKnownWordList), 600);
+        }
+      };
+      handleHighlighter(UnKnownWordList);
+      chrome.runtime.onMessage.addListener(Highlight);
+      return () => {
+        chrome.runtime.onMessage.removeListener(Highlight);
+      };
+    }
   }, [UnKnownWordList]);
+
+  // useEffect(() => {}, );
 
   useEffect(() => {
     if (deleteWordRef.current) {
