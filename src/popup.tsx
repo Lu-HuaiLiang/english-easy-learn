@@ -15,28 +15,8 @@ const extractPathname = (url: string): string => {
 
 const RecommendList = [
   {
-    name: '🔗 跟着LR吃瓜学英语',
-    link: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA5MjM3NDk5Ng%3D%3D&action=getalbum&album_id=1786181186118057992',
-  },
-  {
-    name: '🔗 跟着LR看新闻学英语',
-    link: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA5MjM3NDk5Ng%3D%3D&action=getalbum&album_id=2232928099707486216',
-  },
-  {
-    name: '🔗 二十大报告笔记｜微信',
-    link: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA5MjM3NDk5Ng%3D%3D&action=getalbum&album_id=2625814674491621377',
-  },
-  {
-    name: '🔗 政府工作报告笔记｜微信',
-    link: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA5MjM3NDk5Ng%3D%3D&action=getalbum&album_id=1786177117945167873',
-  },
-  {
     name: '🔗 吃瓜英语阅读网站｜微信',
     link: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA5MjM3NDk5Ng==&action=getalbum&album_id=2973735650787115013',
-  },
-  {
-    name: '🔗 经济学人｜微信',
-    link: 'https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA5MjM3NDk5Ng%3D%3D&action=getalbum&album_id=2209670519946313732',
   },
   {
     name: '🔗 Albert英语研习社｜bilibili',
